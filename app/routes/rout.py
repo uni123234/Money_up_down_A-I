@@ -17,3 +17,9 @@ def login():
 
 def register():
     pass
+
+def todo_list():
+    pass
+
+def hover():
+    pass
