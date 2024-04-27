@@ -2,6 +2,8 @@ from flask import Flask, render_template
 
 app = Flask(__name__)
 
+# не забути добавити адмін сторону
+
 
 @app.rout('/')
 def index():
@@ -18,8 +20,10 @@ def login():
 def register():
     pass
 
+
 def todo_list():
     pass
+
 
 def hover():
     pass
