@@ -6,7 +6,7 @@ import { IncomeComponent } from './income/income.component';
 import { LoginComponent } from './login/login.component';
 import { ExpenseComponent } from './expense/expense.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   { path: 'expense', component: ExpenseComponent},
   { path: 'income', component: IncomeComponent },
   { path: 'login',  component: LoginComponent},
