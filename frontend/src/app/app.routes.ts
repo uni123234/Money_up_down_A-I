@@ -1,3 +1,18 @@
-import { Routes } from '@angular/router';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 
-export const routes: Routes = [];
+import { SingupComponent } from './singup/singup.component';
+import { IncomeComponent } from './income/income.component';
+import { LoginComponent } from './login/login.component';
+
+const routes: Routes = [
+  { path: 'income', component: IncomeComponent },
+  { path: 'login',  component: LoginComponent},
+  { path: 'singup', component: SingupComponent},
+];
+
+@NgModule({
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
+})
+export class AppRoutingModule { }
