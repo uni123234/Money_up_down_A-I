@@ -5,8 +5,10 @@ import { SingupComponent } from './singup/singup.component';
 import { IncomeComponent } from './income/income.component';
 import { LoginComponent } from './login/login.component';
 import { ExpenseComponent } from './expense/expense.component';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
+  { path: 'home', component: HomeComponent},
   { path: 'expense', component: ExpenseComponent},
   { path: 'income', component: IncomeComponent },
   { path: 'login',  component: LoginComponent},
