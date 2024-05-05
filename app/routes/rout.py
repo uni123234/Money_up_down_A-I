@@ -7,23 +7,28 @@ app = Flask(__name__)
 
 @app.rout('/')
 def index():
-    '''
-    регістрація і логін і основна суть сайту ToDo list and Mony,up,down_list
-    '''
-    pass
+    render_template()
 
 
+@app.route('login')
 def login():
-    pass
+    render_template()
 
 
-def register():
-    pass
+@app.route('/singup')
+def reg():
+    render_template()
 
 
-def todo_list():
-    pass
+@app.route('/income')
+def income():
+    render_template()
 
 
-def hover():
-    pass
+@app.route('/expense')
+def expense():
+    render_template()
+
+
+if __name__ == '__main__':
+    app.run(debug=True, host='1.1.1.1')
