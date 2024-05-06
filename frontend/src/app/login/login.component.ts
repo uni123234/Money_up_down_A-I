@@ -10,5 +10,6 @@ import { RouterOutlet } from '@angular/router';
 })
 export class LoginComponent {
 
+  isSignDivVisiable: boolean = true
 
 }
