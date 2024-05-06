@@ -6,10 +6,8 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [RouterOutlet],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css'
+  styleUrl: './login.component.css',
 })
 export class LoginComponent {
-
-  isSignDivVisiable: boolean = true
-
+  isSignDivVisiable: boolean = true;
 }
