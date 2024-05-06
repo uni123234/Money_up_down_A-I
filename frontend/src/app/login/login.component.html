@@ -1,4 +1,20 @@
-<a routerLink="/login" routerLinkActive="active">Login</a>
-<div class = "component">
-  <router-outlet />
-<div>
+<div class="container mt-3">
+  <div class="d-flex justify-content-center">
+    <form>
+      <h2>Увійти в акаунт</h2>
+      <div data-mdb-input-init class="form-outline mb-4">
+        <label or="exampleFormControlInput1" class="form-label">Ваша Email адреса</label>
+        <input class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+      </div>
+      <div class="mb-4">
+        <label for="inputPassword5" class="form-label">Ваш пароль</label>
+        <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock">
+      </div>
+      <button type="submit" class="btn btn-primary mb-4">Увійти</button>
+      <div class="register">
+        <p>Ще не має акаунту?<a href="singup">Зареєструватися</a></p>
+      </div>
+    </form>
+  </div>
+</div>
+

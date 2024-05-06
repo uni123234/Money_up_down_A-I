@@ -1,4 +1,20 @@
-<a routerLink="/singup" routerLinkActive="active">Sing up</a>
-<div class = "component">
-  <router-outlet />
-<div>
+<div class="container mt-3">
+  <div class = "d-flex justify-content-center">
+    <form>
+      <h2 class = "mt-2">Зареєструватися</h2>
+      <div data-mdb-input-init class="form-outline mb-3">
+        <label or="exampleFormControlInput1" class="form-label">Ваша Email адреса</label>
+        <input class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+      </div>
+      <div class="mb-3">
+        <label for="inputPassword5" class="form-label">Ваше ім'я користувача</label>
+        <input type="name" id="inputUsername" class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="inputPassword5" class="form-label">Ваш пароль</label>
+        <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock">
+      </div>
+      <button type="submit" class="btn btn-primary mb-3">Зареєструватися</button>
+    </form>
+  </div>
+</div>
