@@ -8,15 +8,15 @@ import { ExpenseComponent } from './expense/expense.component';
 import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent},
-  { path: 'expense', component: ExpenseComponent},
+  { path: 'api', component: HomeComponent },
+  { path: 'expense', component: ExpenseComponent },
   { path: 'income', component: IncomeComponent },
-  { path: 'login',  component: LoginComponent},
-  { path: 'singup', component: SingupComponent},
+  { path: 'login', component: LoginComponent },
+  { path: 'singup', component: SingupComponent },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

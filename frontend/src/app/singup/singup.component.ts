@@ -4,22 +4,18 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-singup',
   standalone: true,
-  imports: [RouterOutlet,],
+  imports: [RouterOutlet],
   templateUrl: './singup.component.html',
-  styleUrl: './singup.component.css'
+  styleUrl: './singup.component.css',
 })
-export class SingupComponent {
-
-}
+export class SingupComponent {}
 
 export class SignUp {
   name: string;
   email: string;
-  password: string
+  password: string;
 
   constructor() {
-    this.name = "",
-    this.email = "",
-    this.password = ""
+    (this.name = ''), (this.email = ''), (this.password = '');
   }
 }
