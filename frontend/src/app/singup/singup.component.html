@@ -1,20 +1,41 @@
-<div class="container mt-3">
-  <div class = "d-flex justify-content-center">
-    <form>
-      <h2 class = "mt-2">Зареєструватися</h2>
-      <div data-mdb-input-init class="form-outline mb-3">
-        <label or="exampleFormControlInput1" class="form-label">Ваша Email адреса</label>
-        <input class="form-control" id="exampleFormControlInput1" placeholder="name@example.com">
+<section class="vh-100 gradient-custom">
+  <div class="container py-5 h-100">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white" style="border-radius: 1rem;">
+          <div class="card-body p-5 text-center">
+
+            <div class="mb-md-5 mt-md-4 pb-5">
+
+              <h2 class="fw-bold mb-2">ЗАРЕЄСТРУВАТИСЯ</h2>
+              <p class="text-white-50 mb-5">Введіть ваші вхідні дані</p>
+
+              <div class="form-floating form-dark mb-3">
+                <input type="email" class="form-control form-outline form-white" id="floatingInput" placeholder="" style="background-color: #333; color: #fff;">
+                <label for="floatingInput">Ім'я користувача</label>
+              </div>
+
+              <div class="form-floating form-dark mb-3">
+                <input type="email" class="form-control form-outline form-white" id="floatingInput" placeholder="" style="background-color: #333; color: #fff;">
+                <label for="floatingInput">Email</label>
+              </div>
+              
+              <div class="form-floating form-dark mb-3">
+                <input type="password" class="form-control" id="floatingInput" placeholder="" style="background-color: #333; color: #fff;">
+                <label for="floatingInput">Пароль</label>
+              </div>
+
+              <button data-mdb-button-init data-mdb-ripple-init class="btn btn-outline-light btn-lg px-5 mt-4" type="submit">Зареєструватися</button>
+            </div>
+
+            <div>
+              <p class="mb-0">Вже є акаунт? <a href="login" class="text-white-50 fw-bold">Увійти</a>
+              </p>
+            </div>
+
+          </div>
+        </div>
       </div>
-      <div class="mb-3">
-        <label for="inputPassword5" class="form-label">Ваше ім'я користувача</label>
-        <input type="name" id="inputUsername" class="form-control">
-      </div>
-      <div class="mb-3">
-        <label for="inputPassword5" class="form-label">Ваш пароль</label>
-        <input type="password" id="inputPassword5" class="form-control" aria-describedby="passwordHelpBlock">
-      </div>
-      <button type="submit" class="btn btn-primary mb-3">Зареєструватися</button>
-    </form>
+    </div>
   </div>
-</div>
+</section>
