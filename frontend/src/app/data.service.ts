@@ -8,8 +8,8 @@ import { Observable } from 'rxjs';
 export class DataService {
   constructor(private http: HttpClient) {}
 
-  login(): Observable<any> {
-    return this.http.get('/api/login');
+  login(data: any): Observable<any> {
+    return this.http.post('/api/login', data);
   }
 
   signup(data: any): Observable<any> {
@@ -20,7 +20,15 @@ export class DataService {
     return this.http.get('/api/income');
   }
 
+  addIncome(data: any): Observable<any> {
+    return this.http.post('/api/income', data);
+  }
+
   getExpense(): Observable<any> {
     return this.http.get('/api/expense');
+  }
+
+  addExpense(data: any): Observable<any> {
+    return this.http.post('/api/expense', data);
   }
 }

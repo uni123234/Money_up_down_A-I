@@ -30,7 +30,7 @@ def serve(path):
     raise NotFound()
 
 
-@app.route('/api/signup', methods=['GET','POST'])
+@app.route('/api/singup', methods=['GET','POST'])
 def signup():
     session = Session()
     try:
