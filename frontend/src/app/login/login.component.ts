@@ -9,5 +9,4 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
-  isSignDivVisiable: boolean = true;
 }

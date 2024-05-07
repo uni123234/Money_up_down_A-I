@@ -2,6 +2,7 @@ import logging
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from sqlalchemy import create_engine
+from werkzeug.exceptions import NotFound
 from sqlalchemy.orm import sessionmaker, scoped_session
 from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -11,8 +12,8 @@ from models import Base, User, Expense, Income
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = Flask(__name__, static_folder='../frontend/',
-            static_url_path='')
+app = Flask(__name__, static_folder='./frontend/dist/frontend',
+            static_url_path='/')
 CORS(app)
 
 engine = create_engine('sqlite:///todo_list.db')
@@ -21,12 +22,15 @@ Session = scoped_session(session_factory)
 Base.metadata.create_all(engine)
 
 
-@app.route('/')
-def serve():
-    return send_from_directory(app.static_folder, 'index.html')
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def serve(path):
+    if path != "" and not path.startswith("/api/"):
+        return send_from_directory(app.static_folder, 'index.html')
+    raise NotFound()
 
 
-@app.route('/api/signup', methods=['POST'])
+@app.route('/api/signup', methods=['GET','POST'])
 def signup():
     session = Session()
     try:
@@ -49,7 +53,7 @@ def signup():
         session.close()
 
 
-@app.route('/api/login', methods=['POST'])
+@app.route('/api/login', methods=['GET','POST'])
 def login():
     session = Session()
     try:
@@ -63,7 +67,7 @@ def login():
         session.close()
 
 
-@app.route('/api/income', methods=['POST'])
+@app.route('/api/income', methods=['GET','POST'])
 def add_income():
     session = Session()
     try:
@@ -81,7 +85,7 @@ def add_income():
         session.close()
 
 
-@app.route('/api/expense', methods=['POST'])
+@app.route('/api/expense', methods=['GET','POST'])
 def add_expense():
     session = Session()
     try:
