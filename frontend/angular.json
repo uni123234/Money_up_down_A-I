@@ -19,11 +19,8 @@
             "polyfills": ["zone.js"],
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
-            "styles": [
-              "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css"
-            ],            
-            "scripts": ["./node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"],
+            "styles": ["src/styles.css"],
+            "scripts": [],
             "server": "src/main.server.ts",
             "prerender": true,
             "ssr": {
@@ -57,8 +54,8 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "proxyConfig": "src/proxy.conf.json",
-            "open": true
+            "buildTarget": "frontend:build:development",
+            "proxyConfig": "src/proxy.conf.json"
           },
           "configurations": {
             "production": {
