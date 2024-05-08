@@ -8,12 +8,10 @@ from sqlalchemy.exc import SQLAlchemyError
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import Base, User, Expense, Income
 
-
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = Flask(__name__, static_folder='./frontend/dist/frontend',
-            static_url_path='/')
+app = Flask(__name__, static_folder='./frontend/dist/frontend', static_url_path='/')
 CORS(app)
 
 engine = create_engine('sqlite:///todo_list.db')
@@ -30,34 +28,47 @@ def serve(path):
     raise NotFound()
 
 
-@app.route('/api/singup', methods=['GET','POST'])
+@app.route('/api/signup/', methods=['POST'])
 def signup():
     session = Session()
+    data = request.get_json()
+    if not data:
+        return jsonify(status="error", message="No JSON data provided"), 400
+
+    required_fields = ['email', 'password', 'fullname']
+    if not all(field in data for field in required_fields):
+        return jsonify(status="error", message="Missing data"), 400
     try:
-        data = request.json
         existing_user = session.query(User).filter(
             User.email == data['email']).first()
         if existing_user:
-            return jsonify({"status": "error", "message": "Email already exists"}), 400
+            return jsonify(status="error", message="Email already exists"), 400
         hashed_password = generate_password_hash(data['password'])
         new_user = User(fullname=data['fullname'],
                         email=data['email'], password=hashed_password)
         session.add(new_user)
         session.commit()
-        return jsonify({"status": "success", "message": "User created"}), 201
+        return jsonify(status="success", message="User created"), 201
     except SQLAlchemyError as e:
         logger.error(f"Error creating user: {e}")
         session.rollback()
-        return jsonify({"status": "error", "message": "Server error"}), 500
+        return jsonify(status="error", message="Server error"), 500
     finally:
         session.close()
 
 
-@app.route('/api/login', methods=['GET','POST'])
+@app.route('/api/login/', methods=['POST'])
 def login():
     session = Session()
+    data = request.get_json()
+    if not data:
+        return jsonify({"status": "error", "message": "No JSON data provided"}), 400
+
+    required_fields = ['email', 'password']
+    if not all(field in data for field in required_fields):
+        return jsonify({"status": "error", "message": "Missing data"}), 400
+
     try:
-        data = request.json
         user = session.query(User).filter(User.email == data['email']).first()
         if user and check_password_hash(user.password, data['password']):
             return jsonify({"status": "success", "message": "Logged in"})
@@ -65,13 +76,21 @@ def login():
             return jsonify({"status": "error", "message": "Invalid credentials"}), 401
     finally:
         session.close()
+    
 
 
-@app.route('/api/income', methods=['GET','POST'])
+@app.route('/api/income/', methods=['POST'])
 def add_income():
     session = Session()
+    data = request.get_json()
+    if not data:
+        return jsonify({"status": "error", "message": "No JSON data provided"}), 400
+
+    required_fields = ['user_id', 'amount', 'description']
+    if not all(field in data for field in required_fields):
+        return jsonify({"status": "error", "message": "Missing data"}), 400
+
     try:
-        data = request.json
         new_income = Income(
             user_id=data['user_id'], amount=data['amount'], description=data['description'])
         session.add(new_income)
@@ -85,11 +104,18 @@ def add_income():
         session.close()
 
 
-@app.route('/api/expense', methods=['GET','POST'])
+@app.route('/api/expense/', methods=['POST'])
 def add_expense():
     session = Session()
+    data = request.get_json()
+    if not data:
+        return jsonify({"status": "error", "message": "No JSON data provided"}), 400
+
+    required_fields = ['user_id', 'amount', 'description']
+    if not all(field in data for field in required_fields):
+        return jsonify({"status": "error", "message": "Missing data"}), 400
+
     try:
-        data = request.json
         new_expense = Expense(
             user_id=data['user_id'], amount=data['amount'], description=data['description'])
         session.add(new_expense)

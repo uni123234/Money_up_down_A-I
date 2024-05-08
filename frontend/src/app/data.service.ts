@@ -9,26 +9,28 @@ export class DataService {
   constructor(private http: HttpClient) {}
 
   login(data: any): Observable<any> {
-    return this.http.post('/api/login', data);
+    return this.http.post('/api/login/', data);
   }
 
   signup(data: any): Observable<any> {
-    return this.http.post('/api/signup', data);
+    console.log(data)
+    return this.http.post('/api/signup/', data);
   }
 
   getIncome(): Observable<any> {
-    return this.http.get('/api/income');
+    return this.http.get('/api/income/');
   }
 
   addIncome(data: any): Observable<any> {
-    return this.http.post('/api/income', data);
+    return this.http.post('/api/income/', data);
   }
 
   getExpense(): Observable<any> {
-    return this.http.get('/api/expense');
+    return this.http.get('/api/expense/');
   }
 
   addExpense(data: any): Observable<any> {
     return this.http.post('/api/expense', data);
   }
+
 }
