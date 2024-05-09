@@ -14,7 +14,7 @@ logger = logging.getLogger(__name__)
 app = Flask(__name__, static_folder='./frontend/dist/frontend', static_url_path='/')
 CORS(app)
 
-engine = create_engine('sqlite:///todo_list.db')
+engine = create_engine('sqlite:///finance.db')
 session_factory = sessionmaker(bind=engine)
 Session = scoped_session(session_factory)
 Base.metadata.create_all(engine)
