@@ -20,7 +20,7 @@ Session = scoped_session(session_factory)
 Base.metadata.create_all(engine)
 
 
-@app.route('/', defaults={'path': ''})
+@app.route('/', defaults={'path': 'api'})
 @app.route('/<path:path>')
 def serve(path):
     if path != "" and not path.startswith("/api/"):
@@ -28,8 +28,11 @@ def serve(path):
     raise NotFound()
 
 
-@app.route('/api/signup/', methods=['POST'])
-def signup():
+@app.route('/', methods=['POST','GET'], defaults={'path': 'signup'})
+@app.route('/<path:path>')
+def signup(path):
+    if path != "" and not path.startswith("/api/"):
+        return send_from_directory(app.static_folder, 'signup/index.html')
     session = Session()
     data = request.get_json()
     if not data:
@@ -55,10 +58,14 @@ def signup():
         return jsonify(status="error", message="Server error"), 500
     finally:
         session.close()
+    raise NotFound()
 
 
-@app.route('/api/login/', methods=['POST'])
-def login():
+@app.route('/', methods=['POST','GET'], defaults={'path': 'login'})
+@app.route('/<path:path>')
+def login(path):
+    if path != "" and not path.startswith("/api/"):
+        return send_from_directory(app.static_folder, 'login/index.html')
     session = Session()
     data = request.get_json()
     if not data:
@@ -76,11 +83,14 @@ def login():
             return jsonify({"status": "error", "message": "Invalid credentials"}), 401
     finally:
         session.close()
+    raise NotFound()
     
 
-
-@app.route('/api/income/', methods=['POST'])
-def add_income():
+@app.route('/', methods=['POST','GET'], defaults={'path': 'income'})
+@app.route('/<path:path>')
+def add_income(path):
+    if path != "" and not path.startswith("/api/"):
+        return send_from_directory(app.static_folder, 'income/index.html')
     session = Session()
     data = request.get_json()
     if not data:
@@ -102,10 +112,14 @@ def add_income():
         return jsonify({"status": "error", "message": "Server error"}), 500
     finally:
         session.close()
+    raise NotFound()
 
 
-@app.route('/api/expense/', methods=['POST'])
-def add_expense():
+@app.route('/', methods=['POST','GET'], defaults={'path': 'expense'})
+@app.route('/<path:path>')
+def add_expense(path):
+    if path != "" and not path.startswith("/api/"):
+        return send_from_directory(app.static_folder, 'expense/index.html')
     session = Session()
     data = request.get_json()
     if not data:
@@ -127,6 +141,7 @@ def add_expense():
         return jsonify({"status": "error", "message": "Server error"}), 500
     finally:
         session.close()
+    raise NotFound()
 
 
 if __name__ == '__main__':

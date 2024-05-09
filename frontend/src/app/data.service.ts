@@ -13,7 +13,7 @@ export class DataService {
   }
 
   signup(data: any): Observable<any> {
-    console.log(data)
+    console.log(data);
     return this.http.post('/api/signup/', data);
   }
 
@@ -32,5 +32,4 @@ export class DataService {
   addExpense(data: any): Observable<any> {
     return this.http.post('/api/expense', data);
   }
-
 }
