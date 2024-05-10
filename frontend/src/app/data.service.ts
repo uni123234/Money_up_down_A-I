@@ -17,16 +17,16 @@ export class DataService {
     return this.http.post('/api/signup/', data);
   }
 
-  getIncome(): Observable<any> {
-    return this.http.get('/api/income/');
+  getIncome(data: any): Observable<any> {
+    return this.http.get('/api/income/', data);
   }
 
   addIncome(data: any): Observable<any> {
     return this.http.post('/api/income/', data);
   }
 
-  getExpense(): Observable<any> {
-    return this.http.get('/api/expense/');
+  getExpense(data: any): Observable<any> {
+    return this.http.get('/api/expense/', data);
   }
 
   addExpense(data: any): Observable<any> {

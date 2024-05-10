@@ -28,7 +28,7 @@ def serve(path):
     raise NotFound()
 
 
-@app.route('/', methods=['POST','GET'], defaults={'path': 'signup'})
+@app.route('/', methods=['POST','GET'], defaults={'path': 'singup'})
 @app.route('/<path:path>')
 def signup(path):
     if path != "" and not path.startswith("/api/"):
