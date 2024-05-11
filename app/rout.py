@@ -28,11 +28,11 @@ def serve(path):
     raise NotFound()
 
 
-@app.route('/', methods=['POST','GET'], defaults={'path': 'singup'})
-@app.route('/<path:path>')
+@app.route('/signup/', methods=['POST','GET'], defaults={'path': 'signup'})
+@app.route('/<path:path>/singup/')
 def signup(path):
     if path != "" and not path.startswith("/api/"):
-        return send_from_directory(app.static_folder, 'signup/index.html')
+        return send_from_directory(app.static_folder, 'signup.html')
     session = Session()
     data = request.get_json()
     if not data:
@@ -61,11 +61,11 @@ def signup(path):
     raise NotFound()
 
 
-@app.route('/', methods=['POST','GET'], defaults={'path': 'login'})
-@app.route('/<path:path>')
+@app.route('/login/', methods=['POST','GET'], defaults={'path': 'login'})
+@app.route('/<path:path>/login/')
 def login(path):
     if path != "" and not path.startswith("/api/"):
-        return send_from_directory(app.static_folder, 'login/index.html')
+        return send_from_directory(app.static_folder, 'login.html')
     session = Session()
     data = request.get_json()
     if not data:
@@ -86,11 +86,11 @@ def login(path):
     raise NotFound()
     
 
-@app.route('/', methods=['POST','GET'], defaults={'path': 'income'})
-@app.route('/<path:path>')
+@app.route('/income/', methods=['POST','GET'], defaults={'path': 'income'})
+@app.route('/<path:path>/income/')
 def add_income(path):
     if path != "" and not path.startswith("/api/"):
-        return send_from_directory(app.static_folder, 'income/index.html')
+        return send_from_directory(app.static_folder, 'income.html')
     session = Session()
     data = request.get_json()
     if not data:
@@ -115,11 +115,11 @@ def add_income(path):
     raise NotFound()
 
 
-@app.route('/', methods=['POST','GET'], defaults={'path': 'expense'})
-@app.route('/<path:path>')
+@app.route('/expense/', methods=['POST','GET'], defaults={'path': 'expense'})
+@app.route('/<path:path>/expense/')
 def add_expense(path):
     if path != "" and not path.startswith("/api/"):
-        return send_from_directory(app.static_folder, 'expense/index.html')
+        return send_from_directory(app.static_folder, 'expense.html')
     session = Session()
     data = request.get_json()
     if not data:
