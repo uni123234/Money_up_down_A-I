@@ -20,7 +20,7 @@ Session = scoped_session(session_factory)
 Base.metadata.create_all(engine)
 
 
-@app.route('/', defaults={'path': 'api'})
+@app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
     if path != "" and not path.startswith("/api/"):
