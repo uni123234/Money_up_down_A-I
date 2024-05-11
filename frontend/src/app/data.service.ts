@@ -30,6 +30,6 @@ export class DataService {
   }
 
   addExpense(data: any): Observable<any> {
-    return this.http.post('/expense', data);
+    return this.http.post('/expense/', data);
   }
 }
