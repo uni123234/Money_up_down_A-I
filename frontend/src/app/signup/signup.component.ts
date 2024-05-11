@@ -11,11 +11,11 @@ import { RouterOutlet } from '@angular/router';
 export class SignupComponent {}
 
 export class SignUp {
-  name: string;
+  username: string;
   email: string;
   password: string;
 
   constructor() {
-    (this.name = ''), (this.email = ''), (this.password = '');
+    (this.username = ''), (this.email = ''), (this.password = '');
   }
 }
