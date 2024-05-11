@@ -10,32 +10,25 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './login.component.css',
 })
 export class LoginComponent {
+  isSignDivVisiable: boolean = true;
 
-  isSignDivVisiable: boolean = true
-
-  loginObj: LoginTemplate
+  loginObj: LoginTemplate;
 
   constructor() {
-
-    this.loginObj = new LoginTemplate
-
+    this.loginObj = new LoginTemplate();
   }
 
   login(): void {
-
-    console.log("Login wroks")
-
+    console.log('Login wroks');
   }
-
 }
 
 export class LoginTemplate {
-
   email: string;
   password: string;
 
   constructor() {
-    this.email = ""
-    this.password = ""
+    this.email = '';
+    this.password = '';
   }
 }

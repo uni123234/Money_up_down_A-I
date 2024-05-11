@@ -11,7 +11,8 @@ from models import Base, User, Expense, Income
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = Flask(__name__, static_folder='./frontend/dist/frontend', static_url_path='/')
+app = Flask(__name__, static_folder='./frontend/dist/frontend',
+            static_url_path='/')
 CORS(app)
 
 engine = create_engine('sqlite:///finance.db')
@@ -28,8 +29,8 @@ def serve(path):
     raise NotFound()
 
 
-@app.route('/signup/', methods=['POST','GET'], defaults={'path': 'signup'})
-@app.route('/<path:path>/singup/')
+@app.route('/signup/', methods=['POST', 'GET'], defaults={'path': 'signup'})
+@app.route('/<path:path>/signup/')
 def signup(path):
     if path != "" and not path.startswith("/api/"):
         return send_from_directory(app.static_folder, 'signup.html')
@@ -61,7 +62,7 @@ def signup(path):
     raise NotFound()
 
 
-@app.route('/login/', methods=['POST','GET'], defaults={'path': 'login'})
+@app.route('/login/', methods=['POST', 'GET'], defaults={'path': 'login'})
 @app.route('/<path:path>/login/')
 def login(path):
     if path != "" and not path.startswith("/api/"):
@@ -84,9 +85,9 @@ def login(path):
     finally:
         session.close()
     raise NotFound()
-    
 
-@app.route('/income/', methods=['POST','GET'], defaults={'path': 'income'})
+
+@app.route('/income/', methods=['POST', 'GET'], defaults={'path': 'income'})
 @app.route('/<path:path>/income/')
 def add_income(path):
     if path != "" and not path.startswith("/api/"):
@@ -115,7 +116,7 @@ def add_income(path):
     raise NotFound()
 
 
-@app.route('/expense/', methods=['POST','GET'], defaults={'path': 'expense'})
+@app.route('/expense/', methods=['POST', 'GET'], defaults={'path': 'expense'})
 @app.route('/<path:path>/expense/')
 def add_expense(path):
     if path != "" and not path.startswith("/api/"):
