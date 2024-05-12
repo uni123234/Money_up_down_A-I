@@ -2,9 +2,8 @@ import logging
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from sqlalchemy import create_engine
-from werkzeug.exceptions import NotFound
 from sqlalchemy.orm import sessionmaker, scoped_session
-from sqlalchemy.exc import SQLAlchemyError
+from werkzeug.exceptions import NotFound
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import Base, User, Expense, Income
 
@@ -24,125 +23,129 @@ Base.metadata.create_all(engine)
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
-    if path != "" and not path.startswith("/api/"):
-        return send_from_directory(app.static_folder, 'index.html')
-    raise NotFound()
+    if path != "" and not path.startswith("api/"):
+        return send_from_directory(app.static_folder, path)
+    else:
+        raise NotFound()
 
 
 @app.route('/signup/', methods=['POST', 'GET'], defaults={'path': 'signup'})
-@app.route('/<path:path>/signup/')
+@app.route('/<path:path>')
 def signup(path):
-    if path != "" and not path.startswith("/api/"):
-        return send_from_directory(app.static_folder, 'signup.html')
+    if request.method == 'GET':
+        if path != "" and not path.startswith("api/"):
+            return send_from_directory(app.static_folder, path)
+        else:
+            return jsonify({"status": "error", "message": "GET method not supported here"}), 405
+
     session = Session()
     data = request.get_json()
     if not data:
-        return jsonify(status="error", message="No JSON data provided"), 400
+        session.close()
+        return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
     required_fields = ['email', 'password', 'fullname']
     if not all(field in data for field in required_fields):
-        return jsonify(status="error", message="Missing data"), 400
-    try:
-        existing_user = session.query(User).filter(
-            User.email == data['email']).first()
-        if existing_user:
-            return jsonify(status="error", message="Email already exists"), 400
-        hashed_password = generate_password_hash(data['password'])
-        new_user = User(fullname=data['fullname'],
-                        email=data['email'], password=hashed_password)
-        session.add(new_user)
-        session.commit()
-        return jsonify(status="success", message="User created"), 201
-    except SQLAlchemyError as e:
-        logger.error(f"Error creating user: {e}")
-        session.rollback()
-        return jsonify(status="error", message="Server error"), 500
-    finally:
         session.close()
-    raise NotFound()
+        return jsonify({"status": "error", "message": "Missing data"}), 400
+
+    existing_user = session.query(User).filter(
+        User.email == data['email']).first()
+    if existing_user:
+        session.close()
+        return jsonify({"status": "error", "message": "Email already exists"}), 409
+
+    hashed_password = generate_password_hash(data['password'])
+    new_user = User(fullname=data['fullname'],
+                    email=data['email'], password=hashed_password)
+
+    session.add(new_user)
+    session.commit()
+    session.close()
+
+    return jsonify({"status": "success", "message": "User created"}), 201
 
 
 @app.route('/login/', methods=['POST', 'GET'], defaults={'path': 'login'})
-@app.route('/<path:path>/login/')
+@app.route('/<path:path>')
 def login(path):
-    if path != "" and not path.startswith("/api/"):
-        return send_from_directory(app.static_folder, 'login.html')
+    if request.method == 'GET':
+        if path != "" and not path.startswith("api/"):
+            return send_from_directory(app.static_folder, path)
+        else:
+            return jsonify({"status": "error", "message": "GET method not supported here"}), 405
+
     session = Session()
     data = request.get_json()
     if not data:
+        session.close()
         return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
-    required_fields = ['email', 'password']
-    if not all(field in data for field in required_fields):
-        return jsonify({"status": "error", "message": "Missing data"}), 400
-
-    try:
-        user = session.query(User).filter(User.email == data['email']).first()
-        if user and check_password_hash(user.password, data['password']):
-            return jsonify({"status": "success", "message": "Logged in"})
-        else:
-            return jsonify({"status": "error", "message": "Invalid credentials"}), 401
-    finally:
+    user = session.query(User).filter(User.email == data['email']).first()
+    if user and check_password_hash(user.password, data['password']):
         session.close()
-    raise NotFound()
+        return jsonify({"status": "success", "message": "Logged in"})
+
+    session.close()
+    return jsonify({"status": "error", "message": "Invalid credentials"}), 401
 
 
 @app.route('/income/', methods=['POST', 'GET'], defaults={'path': 'income'})
-@app.route('/<path:path>/income/')
+@app.route('/<path:path>')
 def add_income(path):
-    if path != "" and not path.startswith("/api/"):
-        return send_from_directory(app.static_folder, 'income.html')
+    if request.method == 'GET':
+        if path != "" and not path.startswith("api/"):
+            return send_from_directory(app.static_folder, path)
+        else:
+            return jsonify({"status": "error", "message": "GET method not supported here"}), 405
+
     session = Session()
     data = request.get_json()
     if not data:
+        session.close()
         return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
     required_fields = ['user_id', 'amount', 'description']
     if not all(field in data for field in required_fields):
+        session.close()
         return jsonify({"status": "error", "message": "Missing data"}), 400
 
-    try:
-        new_income = Income(
-            user_id=data['user_id'], amount=data['amount'], description=data['description'])
-        session.add(new_income)
-        session.commit()
-        return jsonify({"status": "success", "message": "Income added"}), 201
-    except SQLAlchemyError as e:
-        logger.error(f"Error adding income: {e}")
-        session.rollback()
-        return jsonify({"status": "error", "message": "Server error"}), 500
-    finally:
-        session.close()
-    raise NotFound()
+    new_income = Income(
+        user_id=data['user_id'], amount=data['amount'], description=data['description'])
+    session.add(new_income)
+    session.commit()
+    session.close()
+
+    return jsonify({"status": "success", "message": "Income added"}), 201
 
 
 @app.route('/expense/', methods=['POST', 'GET'], defaults={'path': 'expense'})
-@app.route('/<path:path>/expense/')
+@app.route('/<path:path>')
 def add_expense(path):
-    if path != "" and not path.startswith("/api/"):
-        return send_from_directory(app.static_folder, 'expense.html')
+    if request.method == 'GET':
+        if path != "" and not path.startswith("api/"):
+            return send_from_directory(app.static_folder, path)
+        else:
+            return jsonify({"status": "error", "message": "GET method not supported here"}), 405
+
     session = Session()
     data = request.get_json()
     if not data:
+        session.close()
         return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
     required_fields = ['user_id', 'amount', 'description']
     if not all(field in data for field in required_fields):
+        session.close()
         return jsonify({"status": "error", "message": "Missing data"}), 400
 
-    try:
-        new_expense = Expense(
-            user_id=data['user_id'], amount=data['amount'], description=data['description'])
-        session.add(new_expense)
-        session.commit()
-        return jsonify({"status": "success", "message": "Expense added"}), 201
-    except SQLAlchemyError as e:
-        logger.error(f"Error adding expense: {e}")
-        session.rollback()
-        return jsonify({"status": "error", "message": "Server error"}), 500
-    finally:
-        session.close()
-    raise NotFound()
+    new_expense = Expense(
+        user_id=data['user_id'], amount=data['amount'], description=data['description'])
+    session.add(new_expense)
+    session.commit()
+    session.close()
+
+    return jsonify({"status": "success", "message": "Expense added"}), 201
 
 
 if __name__ == '__main__':

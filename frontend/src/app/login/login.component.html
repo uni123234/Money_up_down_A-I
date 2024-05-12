@@ -14,7 +14,7 @@
                   <input
                     type="email"
                     class="form-control form-outline form-white"
-                    id="floatingEmailInput"
+                    id="floatingInput"
                     placeholder=""
                     style="background-color: #333; color: #fff"
                     [(ngModel)]="loginObj.email"
@@ -34,20 +34,20 @@
                   <label for="floatingPasswordInput">Пароль</label>
                 </div>
 
-                <p class="small mb-5 pb-lg-2">
-                  <a class="text-white-50" href="#!">Забули пароль?</a>
-                </p>
+              <p class="small mb-5 pb-lg-2">
+                <a class="text-white-50" href="#!">Забули пароль?</a>
+              </p>
 
-                <button
-                  data-mdb-button-init
-                  data-mdb-ripple-init
-                  class="btn btn-outline-light btn-lg px-5"
-                  type="button"
-                  (click)="login()"
-                >
-                  Увійти
-                </button>
-              </div>
+              <button
+                data-mdb-button-init
+                data-mdb-ripple-init
+                class="btn btn-outline-light btn-lg px-5"
+                type="button"
+                (click)="login()"
+              >
+                Увійти
+              </button>
+            </div>
 
               <div>
                 <p class="mb-0">
