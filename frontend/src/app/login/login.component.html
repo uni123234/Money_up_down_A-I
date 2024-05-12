@@ -1,36 +1,38 @@
-<section class="vh-100 gradient-custom">
-  <div class="container py-5 h-100">
-    <div class="row d-flex justify-content-center align-items-center h-100">
-      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-        <div class="card bg-dark text-white" style="border-radius: 1rem">
-          <div class="card-body p-5 text-center">
-            <div class="mb-md-5 mt-md-4 pb-5">
-              <h2 class="fw-bold mb-2">УВІЙТИ В АКАКУНТ</h2>
-              <p class="text-white-50 mb-5">Введіть свій логін та пароль</p>
+<router-outlet>
+  <base href="/login/" />
+  <section class="vh-100 gradient-custom">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+          <div class="card bg-dark text-white" style="border-radius: 1rem">
+            <div class="card-body p-5 text-center">
+              <div class="mb-md-5 mt-md-4 pb-5">
+                <h2 class="fw-bold mb-2">УВІЙТИ В АКАУНТ</h2>
+                <p class="text-white-50 mb-5">Введіть свій логін та пароль</p>
 
-              <div class="form-floating form-dark mb-3">
-                <input
-                  type="email"
-                  class="form-control form-outline form-white"
-                  id="floatingInput"
-                  placeholder=""
-                  style="background-color: #333; color: #fff"
-                  [(ngModel)]="loginObj.email"
-                />
-                <label for="floatingInput">Email</label>
-              </div>
+                <div class="form-floating form-dark mb-3">
+                  <input
+                    type="email"
+                    class="form-control form-outline form-white"
+                    id="floatingInput"
+                    placeholder=""
+                    style="background-color: #333; color: #fff"
+                    [(ngModel)]="loginObj.email"
+                  />
+                  <label for="floatingEmailInput">Email</label>
+                </div>
 
-              <div class="form-floating form-dark mb-3">
-                <input
-                  type="password"
-                  class="form-control"
-                  id="floatingInput"
-                  placeholder=""
-                  style="background-color: #333; color: #fff"
-                  [(ngModel)]="loginObj.password"
-                />
-                <label for="floatingInput">Пароль</label>
-              </div>
+                <div class="form-floating form-dark mb-3">
+                  <input
+                    type="password"
+                    class="form-control"
+                    id="floatingPasswordInput"
+                    placeholder=""
+                    style="background-color: #333; color: #fff"
+                    [(ngModel)]="loginObj.password"
+                  />
+                  <label for="floatingPasswordInput">Пароль</label>
+                </div>
 
               <p class="small mb-5 pb-lg-2">
                 <a class="text-white-50" href="#!">Забули пароль?</a>
@@ -47,17 +49,18 @@
               </button>
             </div>
 
-            <div>
-              <p class="mb-0">
-                Ще немає акаунту?
-                <a href="/signup/" class="text-white-50 fw-bold"
-                  >Зареєструватися</a
-                >
-              </p>
+              <div>
+                <p class="mb-0">
+                  Ще немає акаунту?
+                  <a href="/signup/" class="text-white-50 fw-bold"
+                    >Зареєструватися</a
+                  >
+                </p>
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
+  </section>
+</router-outlet>
