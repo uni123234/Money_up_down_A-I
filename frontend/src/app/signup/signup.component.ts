@@ -25,8 +25,8 @@ export class SignupComponent {
 
   signup() {
     console.log(this.signupObj.email)
-    const signupData = { "email": this.signupObj.email, "password": this.signupObj.password, "fullname": this.signupObj.username};
-    this.dataService.signup(signupData).subscribe({
+    const SignupData = { "email": this.signupObj.email, "password": this.signupObj.password, "fullname": this.signupObj.username};
+    this.dataService.signup(SignupData).subscribe({
       next: (response) => console.log('Signup successful', response),
       error: (error) => console.error('Singup failed', error)
     });
