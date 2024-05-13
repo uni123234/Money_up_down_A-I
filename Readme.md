@@ -95,13 +95,13 @@ The system uses Angular for the front-end, Flask for the back-end, and SQLAlchem
 3. **Execute the following command:**
 
 ```bash
-python3 -m venv venv
+python-m venv venv
 ```
 
 4. **Run the following command to activate the virtual environment:**
 
 ```bash
-source venv/bin/activate
+./venv/bin/activate
 ```
 
 **Running the project:**
