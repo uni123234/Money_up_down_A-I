@@ -79,7 +79,7 @@ ng build --configuration production --base-href "/static/"
 
 **Money_up_down_A-I: Income and Expense Tracking System for Animal Shelters**
 
-This project is designed for animal shelters to help them organize and track their income and expenses. The system uses Angular for the front-end, Flask for the back-end, and SQLAlchemy for ORM.
+The system uses Angular for the front-end, Flask for the back-end, and SQLAlchemy for ORM.
 
 **Features:**
 
