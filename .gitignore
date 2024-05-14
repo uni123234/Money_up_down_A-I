@@ -2,3 +2,4 @@ __pycache__/
 todo_list.db
 node_modules
 finance.db
+venv/
