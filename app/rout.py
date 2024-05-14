@@ -5,7 +5,6 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 from werkzeug.exceptions import NotFound
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import Base, User, Expense, Income
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -105,13 +104,13 @@ def add_income(path):
         session.close()
         return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
-    required_fields = ['user_id', 'amount', 'description']
+    required_fields = ['user_id', 'amount', 'description', 'category_id']
     if not all(field in data for field in required_fields):
         session.close()
         return jsonify({"status": "error", "message": "Missing data"}), 400
 
     new_income = Income(
-        user_id=data['user_id'], amount=data['amount'], description=data['description'])
+        user_id=data['user_id'], category_id=data['category_id'], amount=data['amount'], description=data['description'])
     session.add(new_income)
     session.commit()
     session.close()
@@ -134,13 +133,13 @@ def add_expense(path):
         session.close()
         return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
-    required_fields = ['user_id', 'amount', 'description']
+    required_fields = ['user_id', 'amount', 'description', 'category_id']
     if not all(field in data for field in required_fields):
         session.close()
         return jsonify({"status": "error", "message": "Missing data"}), 400
 
     new_expense = Expense(
-        user_id=data['user_id'], amount=data['amount'], description=data['description'])
+        user_id=data['user_id'], category_id=data['category_id'], amount=data['amount'], description=data['description'])
     session.add(new_expense)
     session.commit()
     session.close()
