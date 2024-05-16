@@ -7,7 +7,8 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from werkzeug.exceptions import NotFound
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta, timezone
-from models import Base, User, Expense, Income
+from models import Base, User, Expense, Income, Category  # Ensure Category is imported
+
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
@@ -19,6 +20,7 @@ session_factory = sessionmaker(bind=engine)
 Session = scoped_session(session_factory)
 Base.metadata.create_all(engine)
 
+
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
 def serve(path):
@@ -26,6 +28,7 @@ def serve(path):
         return send_from_directory(app.static_folder, path)
     else:
         raise NotFound()
+
 
 @app.route('/signup/', methods=['POST', 'GET'], defaults={'path': 'signup'})
 @app.route('/<path:path>')
@@ -61,6 +64,7 @@ def signup(path):
 
     return jsonify({"status": "success", "message": "User created"}), 201
 
+
 @app.route('/login/', methods=['POST', 'GET'], defaults={'path': 'login'})
 @app.route('/<path:path>')
 def login(path):
@@ -79,20 +83,15 @@ def login(path):
     user = session.query(User).filter(User.email == data['email']).first()
     if user and check_password_hash(user.password, data['password']):
         session.close()
-        # Створення JWT токена
         token_payload = {
             'user_id': user.id,
-            'exp': datetime.now(timezone.utc) + timedelta(days=1)  # Токен дійсний протягом 1 дня
+            'exp': datetime.now(timezone.utc) + timedelta(days=1)
         }
         token = jwt.encode(token_payload, 'your_secret_key', algorithm='HS256')
-        print("token " + token)
-
-        # Відправлення токена у відповіді
         return jsonify({"status": "success", "token": token})
 
     session.close()
     return jsonify({"status": "error", "message": "Invalid credentials"}), 401
-
 
 
 @app.route('/income/', methods=['POST', 'GET'], defaults={'path': 'income'})
@@ -153,8 +152,15 @@ def add_expense(path):
     return jsonify({"status": "success", "message": "Expense added"}), 201
 
 
-@app.route('/categories/', methods=['POST'])
-def add_category():
+@app.route('/categories/', methods=['POST', 'GET'], defaults={'path': 'categories'})
+@app.route('/<path:path>')
+def add_category(path):
+    if request.method == 'GET':
+        if path != "" and not path.startswith("api/"):
+            return send_from_directory(app.static_folder, path)
+        else:
+            return jsonify({"status": "error", "message": "GET method not supported here"}), 405
+
     session = Session()
     data = request.get_json()
     if not data:
@@ -164,7 +170,7 @@ def add_category():
     required_fields = ['user_id', 'name']
     if not all(field in data for field in required_fields):
         session.close()
-        return jsonify({"statZus": "error", "message": "Missing data"}), 400
+        return jsonify({"status": "error", "message": "Missing data"}), 400
 
     new_category = Category(user_id=data['user_id'], name=data['name'])
     session.add(new_category)
@@ -172,7 +178,6 @@ def add_category():
     session.close()
 
     return jsonify({"status": "success", "message": "Category added"}), 201
-
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
