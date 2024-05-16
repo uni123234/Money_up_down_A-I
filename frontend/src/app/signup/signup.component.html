@@ -9,52 +9,78 @@
               <div class="mb-md-5 mt-md-4 pb-5">
                 <h2 class="fw-bold mb-2">ЗАРЕЄСТРУВАТИСЯ</h2>
                 <p class="text-white-50 mb-5">Введіть ваші вхідні дані</p>
+                <form #signupForm="ngForm" (ngSubmit)="signup(signupForm)">
+                  <div class="form-floating form-dark mb-3">
+                    <input
+                      type="username"
+                      class="form-control form-outline form-white"
+                      id="floatingUsername"
+                      placeholder=""
+                      style="background-color: #333; color: #fff"
+                      required
+                      minlength="4"
+                      [(ngModel)]="signupObj.username"
+                      name="username"
+                      #username="ngModel"
+                    />
+                    <label for="floatingUsername">Ім'я користувача</label>
+                    <div *ngIf="username.errors?.['minlength'] && username.dirty" class="text-danger">
+                      Довжина імені користувача повинна бути більше 4 символів.
+                    </div>
+                  </div>
 
-                <div class="form-floating form-dark mb-3">
-                  <input
-                    type="username"
-                    class="form-control form-outline form-white"
-                    id="floatingUsername"
-                    placeholder=""
-                    style="background-color: #333; color: #fff"
-                    [(ngModel)]="signupObj.username"
-                  />
-                  <label for="floatingUsername">Ім'я користувача</label>
-                </div>
+                  <div class="form-floating form-dark mb-3">
+                    <input
+                      type="email"
+                      class="form-control form-outline form-white"
+                      id="floatingEmail"
+                      placeholder=""
+                      style="background-color: #333; color: #fff"
+                      [(ngModel)]="signupObj.email"
+                      name="email"
+                      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                      minlength="6"
+                      required
+                      #email="ngModel"
+                    />
+                    <label for="floatingEmail">Email</label>
+                    <div *ngIf="email.errors?.['pattern'] && email.dirty" class="text-danger">
+                      Невірний формат email.
+                    </div>
+                    <div *ngIf="emailError" class="text-danger">{{ emailError }}</div>
+                  </div>
 
-                <div class="form-floating form-dark mb-3">
-                  <input
-                    type="email"
-                    class="form-control form-outline form-white"
-                    id="floatingEmail"
-                    placeholder=""
-                    style="background-color: #333; color: #fff"
-                    [(ngModel)]="signupObj.email"
-                  />
-                  <label for="floatingEmail">Email</label>
-                </div>
-
-                <div class="form-floating form-dark mb-3">
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="floatingPassword"
-                    placeholder=""
-                    style="background-color: #333; color: #fff"
-                    [(ngModel)]="signupObj.password"
-                  />
-                  <label for="floatingPassword">Пароль</label>
-                </div>
-
-                <button
-                  data-mdb-button-init
-                  data-mdb-ripple-init
-                  class="btn btn-outline-light btn-lg px-5 mt-4"
-                  type="submit"
-                  (click)="signup()"
-                >
-                  Зареєструватися
-                </button>
+                  <div class="form-floating form-dark mb-3">
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="floatingPassword"
+                      name="password"
+                      placeholder=""
+                      style="background-color: #333; color: #fff"
+                      [(ngModel)]="signupObj.password"
+                      required
+                      minlength="6"
+                      #password="ngModel"
+                    />
+                    <label for="floatingPassword">Пароль</label>
+                    <div *ngIf="password.errors?.['minlength'] && password.dirty" class="text-danger">
+                      Довжина пароля повинна бути більше 6 символів.
+                    </div>
+                  </div>
+                
+                  <button
+                    data-mdb-button-init
+                    data-mdb-ripple-init
+                    class="btn btn-outline-light btn-lg px-5 mt-4"
+                    type="submit"
+                    [disabled]="!signupForm.valid"
+                  >
+                    Зареєструватися
+                  </button>
+                  <div *ngIf="successMessage" class="alert alert-success mt-3">
+                    {{ successMessage }}</div>
+                </form>
               </div>
 
               <div>

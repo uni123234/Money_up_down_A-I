@@ -1,0 +1,137 @@
+@import url(http://fonts.googleapis.com/css?family=Calibri:400,300,700);
+
+.slide-down-table {
+    position: fixed;
+    top: -100%; /* Початкове положення вище екрану */
+    left: 20%; /* Початкове положення по горизонталі (по центру) */
+    transform: translateX(-2%);
+    right: 0;
+    transition: top 0.5s; /* Анімація зсуву вниз */
+    z-index: 5; /* Шар над основним контентом */
+    
+  }
+
+.slide-down-table.show {
+    top: 10%; /* Зсув вниз для показу таблиці */
+  }
+  
+
+.gradient-custom {
+    /* fallback for old browsers */
+    background: #6a11cb;
+  
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(
+      to right,
+      rgba(106, 17, 203, 1),
+      rgba(37, 117, 252, 1)
+    );
+  
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(
+      to right,
+      rgba(106, 17, 203, 1),
+      rgba(37, 117, 252, 1)
+    );
+  }
+
+  .container {
+    margin-top: 100px;
+}
+
+.card {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0px solid transparent;
+    border-radius: 0px;
+}
+
+.card-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+.card .card-title {
+    position: relative;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+.table-dark {
+    background-color: #343a40;
+    color: white;
+}
+
+.table-dark th,
+.table-dark td,
+.table-dark thead th {
+    border-color: #454d55;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+* {
+    outline: none;
+}
+
+.table th, .table thead th {
+    font-weight: 500;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table th {
+    padding: 1rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+th {
+    text-align: inherit;
+}
+
+.m-b-20 {
+    margin-bottom: 20px;
+}
+
+.edit-btn {
+    background-color: #2196BB;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.edit-btn:hover {
+    background-color: #1976A3;
+}
+
+.edit-icon {
+    font-family: 'FontAwesome';
+}

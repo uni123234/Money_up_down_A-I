@@ -5,10 +5,11 @@ import { IncomeComponent } from './income/income.component';
 import { LoginComponent } from './login/login.component';
 import { ExpenseComponent } from './expense/expense.component';
 import { SignupComponent } from './signup/signup.component';
+import { AuthGuard } from './auth.guard';
 
 export const routes: Routes = [
-  { path: 'expense', component: ExpenseComponent },
-  { path: 'income', component: IncomeComponent },
+  { path: 'expense', component: ExpenseComponent, canActivate: [AuthGuard] },
+  { path: 'income', component: IncomeComponent, canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
 ];

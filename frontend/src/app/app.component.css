@@ -3,3 +3,10 @@
   justify-content: center;
   align-items: center;
 }
+
+.navbar {
+  z-index: 15;
+  background-color: #f0f0f0; /* Змінюємо фон на сірий */
+  border-bottom: 1px solid #888; /* Додаємо сірий бордер знизу */
+  opacity: 1; /* Робимо повністю непрозорим */
+}

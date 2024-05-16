@@ -159,7 +159,7 @@ def add_category():
     required_fields = ['user_id', 'name']
     if not all(field in data for field in required_fields):
         session.close()
-        return jsonify({"status": "error", "message": "Missing data"}), 400
+        return jsonify({"statZus": "error", "message": "Missing data"}), 400
 
     new_category = Category(user_id=data['user_id'], name=data['name'])
     session.add(new_category)

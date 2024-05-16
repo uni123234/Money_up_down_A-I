@@ -9,44 +9,61 @@
               <div class="mb-md-5 mt-md-4 pb-5">
                 <h2 class="fw-bold mb-2">УВІЙТИ В АКАУНТ</h2>
                 <p class="text-white-50 mb-5">Введіть свій логін та пароль</p>
+                <form #loginForm="ngForm" (ngSubmit)="login(loginForm)">
+                  <div class="form-floating form-dark mb-3">
+                    <input
+                      type="email"
+                      name="email"
+                      class="form-control form-outline form-white"
+                      id="floatingInput"
+                      placeholder=""
+                      style="background-color: #333; color: #fff"
+                      [(ngModel)]="loginObj.email"
+                      pattern="[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}"
+                      minlength="6"
+                      required
+                      #email="ngModel"
+                    />
+                    <label for="floatingEmailInput">Email</label>
+                    <div *ngIf="email.errors?.['pattern'] && email.dirty" class="text-danger">
+                      Невірний формат email.
+                    </div>
+                  </div>
 
-                <div class="form-floating form-dark mb-3">
-                  <input
-                    type="email"
-                    class="form-control form-outline form-white"
-                    id="floatingInput"
-                    placeholder=""
-                    style="background-color: #333; color: #fff"
-                    [(ngModel)]="loginObj.email"
-                  />
-                  <label for="floatingEmailInput">Email</label>
-                </div>
+                  <div class="form-floating form-dark mb-3">
+                    <input
+                      type="password"
+                      name="password"
+                      class="form-control"
+                      id="floatingPasswordInput"
+                      placeholder=""
+                      style="background-color: #333; color: #fff"
+                      [(ngModel)]="loginObj.password"
+                      minlength="6"
+                      required
+                      #password="ngModel"
+                    />
+                    <label for="floatingPasswordInput">Пароль</label>
+                    <div *ngIf="password.errors?.['minlength'] && password.dirty" class="text-danger">
+                      Довжина пароля повинна бути більше 6 символів.
+                    </div>
+                  </div>
 
-                <div class="form-floating form-dark mb-3">
-                  <input
-                    type="password"
-                    class="form-control"
-                    id="floatingPasswordInput"
-                    placeholder=""
-                    style="background-color: #333; color: #fff"
-                    [(ngModel)]="loginObj.password"
-                  />
-                  <label for="floatingPasswordInput">Пароль</label>
-                </div>
+                  <p class="small mb-5 pb-lg-2">
+                    <a class="text-white-50" href="#!">Забули пароль?</a>
+                  </p>
 
-              <p class="small mb-5 pb-lg-2">
-                <a class="text-white-50" href="#!">Забули пароль?</a>
-              </p>
-
-              <button
-                data-mdb-button-init
-                data-mdb-ripple-init
-                class="btn btn-outline-light btn-lg px-5"
-                type="button"
-                (click)="login()"
-              >
-                Увійти
-              </button>
+                  <button
+                    data-mdb-button-init
+                    data-mdb-ripple-init
+                    class="btn btn-outline-light btn-lg px-5"
+                    type="submit"
+                    [disabled]="!loginForm.valid"
+                  >
+                    Увійти
+                  </button>
+                  <div *ngIf="credentialsError" class="text-danger">{{ credentialsError }}</div>
+               </form>
             </div>
 
               <div>
