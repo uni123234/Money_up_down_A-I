@@ -12,15 +12,9 @@ import { NgIf, NgIfContext } from '@angular/common';
   styleUrl: './expense.component.css',
 })
 
-export class ExpenseComponent implements OnInit {
-  
-  isAuthenticated: boolean = false;
+export class ExpenseComponent {
 
   constructor(private authService: AuthService) {}
-
-  ngOnInit(): void {
-    this.isAuthenticated = this.authService.isAuthenticated();
-  }
 
   toggleTable() {
     console.log("works")

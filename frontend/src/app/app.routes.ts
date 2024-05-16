@@ -5,13 +5,16 @@ import { IncomeComponent } from './income/income.component';
 import { LoginComponent } from './login/login.component';
 import { ExpenseComponent } from './expense/expense.component';
 import { SignupComponent } from './signup/signup.component';
-import { AuthGuard } from './auth.guard';
+import { AuthGuard, LoginGuard } from './auth.guard';
+import { HomeComponent } from './home/home.component';
 
 export const routes: Routes = [
-  { path: 'expense', component: ExpenseComponent, canActivate: [AuthGuard] },
-  { path: 'income', component: IncomeComponent, canActivate: [AuthGuard] },
-  { path: 'login', component: LoginComponent },
-  { path: 'signup', component: SignupComponent },
+  { path: 'expense', component: ExpenseComponent},
+  { path: 'income', component: IncomeComponent},
+  { path: 'login', component: LoginComponent},
+  { path: 'signup', component: SignupComponent},
+  { path: '', component: HomeComponent },
+  { path: '**', redirectTo: '' },
 ];
 
 @NgModule({

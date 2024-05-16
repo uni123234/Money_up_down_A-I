@@ -13,7 +13,7 @@ import { CommonModule } from '@angular/common';
   templateUrl: './login.component.html',
   styleUrl: './login.component.css',
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent {
 
   isAuthenticated: boolean = false;
   loginObj: LoginTemplate;
@@ -23,9 +23,6 @@ export class LoginComponent implements OnInit {
 
     this.loginObj = new LoginTemplate
 
-  }
-  ngOnInit(): void {
-    this.isAuthenticated = this.authService.isAuthenticated();
   }
 
   login(loginForm: NgForm) {
