@@ -93,7 +93,10 @@ def login(path):
     session.close()
     return jsonify({"status": "error", "message": "Invalid credentials"}), 401
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> 17a5b20 (fix)
 @app.route('/income/', methods=['POST', 'GET'], defaults={'path': 'income'})
 @app.route('/<path:path>')
 def add_income(path):
@@ -121,7 +124,6 @@ def add_income(path):
     session.close()
 
     return jsonify({"status": "success", "message": "Income added"}), 201
-
 
 @app.route('/expense/', methods=['POST', 'GET'], defaults={'path': 'expense'})
 @app.route('/<path:path>')
@@ -151,7 +153,6 @@ def add_expense(path):
 
     return jsonify({"status": "success", "message": "Expense added"}), 201
 
-
 @app.route('/categories/', methods=['POST', 'GET'], defaults={'path': 'categories'})
 @app.route('/<path:path>')
 def add_category(path):
@@ -161,6 +162,18 @@ def add_category(path):
         else:
             return jsonify({"status": "error", "message": "GET method not supported here"}), 405
 
+<<<<<<< HEAD
+@app.route('/categories/', methods=['POST', 'GET'], defaults={'path': 'categories'})
+@app.route('/<path:path>')
+def add_category(path):
+    if request.method == 'GET':
+        if path != "" and not path.startswith("api/"):
+            return send_from_directory(app.static_folder, path)
+        else:
+            return jsonify({"status": "error", "message": "GET method not supported here"}), 405
+
+=======
+>>>>>>> 17a5b20 (fix)
     session = Session()
     data = request.get_json()
     if not data:
