@@ -7,12 +7,14 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from werkzeug.exceptions import NotFound
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta, timezone
-from models import Base, User, Expense, Income, Category  # Ensure Category is imported
+# Ensure Category is imported
+from models import Base, User, Expense, Income, Category
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-app = Flask(__name__, static_folder='./frontend/dist/frontend', static_url_path='/')
+app = Flask(__name__, static_folder='./frontend/dist/frontend',
+            static_url_path='/')
 CORS(app)
 
 engine = create_engine('sqlite:///finance.db')
@@ -50,13 +52,15 @@ def signup(path):
         session.close()
         return jsonify({"status": "error", "message": "Missing data"}), 400
 
-    existing_user = session.query(User).filter(User.email == data['email']).first()
+    existing_user = session.query(User).filter(
+        User.email == data['email']).first()
     if existing_user:
         session.close()
         return jsonify({"status": "error", "message": "Email already exists"}), 409
 
     hashed_password = generate_password_hash(data['password'])
-    new_user = User(fullname=data['fullname'], email=data['email'], password=hashed_password)
+    new_user = User(fullname=data['fullname'],
+                    email=data['email'], password=hashed_password)
 
     session.add(new_user)
     session.commit()
@@ -93,6 +97,7 @@ def login(path):
     session.close()
     return jsonify({"status": "error", "message": "Invalid credentials"}), 401
 
+
 @app.route('/income/', methods=['POST', 'GET'], defaults={'path': 'income'})
 @app.route('/<path:path>')
 def add_income(path):
@@ -121,6 +126,7 @@ def add_income(path):
 
     return jsonify({"status": "success", "message": "Income added"}), 201
 
+
 @app.route('/expense/', methods=['POST', 'GET'], defaults={'path': 'expense'})
 @app.route('/<path:path>')
 def add_expense(path):
@@ -148,6 +154,7 @@ def add_expense(path):
     session.close()
 
     return jsonify({"status": "success", "message": "Expense added"}), 201
+
 
 @app.route('/categories/', methods=['POST', 'GET'], defaults={'path': 'categories'})
 @app.route('/<path:path>')
@@ -184,6 +191,7 @@ def add_category(path):
     session.close()
 
     return jsonify({"status": "success", "message": "Category added"}), 201
+
 
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
