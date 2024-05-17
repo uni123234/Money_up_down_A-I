@@ -164,19 +164,19 @@ def income_handler(path):
             session.close()
             return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
-        required_fields = ["user_id", "amount", "description", "category_name"]
+        required_fields = ["user_id", "amount", "description", "category"]
         if not all(field in data for field in required_fields):
             session.close()
             return jsonify({"status": "error", "message": "Missing data"}), 400
 
         category = (
             session.query(IncomeCategory)
-            .filter(IncomeCategory.name == data["category_name"])
+            .filter(IncomeCategory.name == data["category"])
             .first()
         )
         if not category:
             category = IncomeCategory(
-                name=data["category_name"], user_id=data["user_id"]
+                name=data["category"], user_id=data["user_id"]
             )
             session.add(category)
             session.commit()
@@ -186,6 +186,7 @@ def income_handler(path):
             amount=data["amount"],
             description=data["description"],
             category_id=category.id,
+            date=data["date"]
         )
         session.add(new_income)
         session.commit()
@@ -219,15 +220,15 @@ def income_handler(path):
             income.description = data["description"]
         if "date" in data:
             income.date = data["date"]
-        if "category_name" in data:
+        if "category" in data:
             category = (
                 session.query(IncomeCategory)
-                .filter(IncomeCategory.name == data["category_name"])
+                .filter(IncomeCategory.name == data["category"])
                 .first()
             )
             if not category:
                 category = IncomeCategory(
-                    name=data["category_name"], user_id=income.user_id
+                    name=data["category"], user_id=income.user_id
                 )
                 session.add(category)
                 session.commit()
@@ -237,6 +238,7 @@ def income_handler(path):
         session.close()
 
         return jsonify({"status": "success", "message": "Income updated"}), 200
+
 
 
 @app.route("/expense/", methods=["POST", "GET", "PUT"], defaults={"path": "expense"})
@@ -289,7 +291,7 @@ def expense_handler(path):
             session.close()
             return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
-        required_fields = ["email", "amount", "description", "category_name"]
+        required_fields = ["email", "amount", "description", "category"]
         if not all(field in data for field in required_fields):
             session.close()
             return jsonify({"status": "error", "message": "Missing data"}), 400
@@ -298,11 +300,11 @@ def expense_handler(path):
 
         category = (
             session.query(ExpenseCategory)
-            .filter(ExpenseCategory.name == data["category_name"])
+            .filter(ExpenseCategory.name == data["category"])
             .first()
         )
         if not category:
-            category = ExpenseCategory(name=data["category_name"], user_id=user_id)
+            category = ExpenseCategory(name=data["category"], user_id=user_id)
             session.add(category)
             session.commit()
 
@@ -311,6 +313,7 @@ def expense_handler(path):
             amount=data["amount"],
             description=data["description"],
             category_id=category.id,
+            date=data["date"]
         )
         session.add(new_expense)
         session.commit()
@@ -344,15 +347,15 @@ def expense_handler(path):
             expense.description = data["description"]
         if "date" in data:
             expense.date = data["date"]
-        if "category_name" in data:
+        if "category" in data:
             category = (
                 session.query(ExpenseCategory)
-                .filter(ExpenseCategory.name == data["category_name"])
+                .filter(ExpenseCategory.name == data["category"])
                 .first()
             )
             if not category:
                 category = ExpenseCategory(
-                    name=data["category_name"], user_id=expense.user_id
+                    name=data["category"], user_id=expense.user_id
                 )
                 session.add(category)
                 session.commit()
@@ -362,6 +365,7 @@ def expense_handler(path):
         session.close()
 
         return jsonify({"status": "success", "message": "Expense updated"}), 200
+
 
 
 if __name__ == "__main__":

@@ -1,154 +1,140 @@
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<base href="/expense/" />
-<title>Income and Expense Tracker</title>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<section class="gradient-custom d-flex justify-content-center align-items-center vh-100">
-  <div class="col">
-    <div class="card border mt-4">
-      <div class="card-header bg-dark text-white border-bottom">
-        <h5 class="card-title">Income and Expense Tracker</h5>
-      </div>
-      <div class="card-body bg-dark">
-        <h5 class="text-white mb-3">Add Income</h5>
-        <form id="incomeForm">
-          <div class="form-row">
-            <div class="form-group col-md-4">
-              <input type="text" class="form-control" id="incomeName" placeholder="Name" required>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <base href="/" />
+    <title>Income and Expense Tracker</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <section class="gradient-custom d-flex justify-content-center align-items-center vh-100">
+        <div class="col">
+            <div class="card border mt-4">
+                <div class="card-header bg-dark text-white border-bottom">
+                    <h5 class="card-title">Income and Expense Tracker</h5>
+                </div>
+                <div class="card-body bg-dark">
+                    <h5 class="text-white mb-3">Add Income</h5>
+                    <form id="incomeForm">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" id="incomeName" placeholder="Name" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="date" class="form-control" id="incomeDate" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="number" class="form-control" id="incomeAmount" placeholder="Amount" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" id="incomeCategory" placeholder="Category" required>
+                            </div>
+                            <div class="form-group col-md-8">
+                                <input type="text" class="form-control" id="incomeDescription" placeholder="Description">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Income</button>
+                    </form>
+                    <hr>
+                    <h5 class="text-white mb-3">Add Expense</h5>
+                    <form id="expenseForm">
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" id="expenseName" placeholder="Name" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="date" class="form-control" id="expenseDate" required>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <input type="number" class="form-control" id="expenseAmount" placeholder="Amount" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-group col-md-4">
+                                <input type="text" class="form-control" id="expenseCategory" placeholder="Category" required>
+                            </div>
+                            <div class="form-group col-md-8">
+                                <input type="text" class="form-control" id="expenseDescription" placeholder="Description">
+                            </div>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Add Expense</button>
+                    </form>
+                    <hr>
+                </div>
             </div>
-            <div class="form-group col-md-4">
-              <input type="date" class="form-control" id="incomeDate" required>
-            </div>
-            <div class="form-group col-md-4">
-              <input type="number" class="form-control" id="incomeAmount" placeholder="Amount" required>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-4">
-              <input type="text" class="form-control" id="incomeCategory" placeholder="Category" required>
-            </div>
-            <div class="form-group col-md-8">
-              <input type="text" class="form-control" id="incomeDescription" placeholder="Description">
-            </div>
-          </div>
-          <button type="submit" class="btn btn-primary">Add Income</button>
-        </form>
-
-        <hr>
-
-        <h5 class="text-white mb-3">Add Expense</h5>
-        <form id="expenseForm">
-          <div class="form-row">
-            <div class="form-group col-md-4">
-              <input type="text" class="form-control" id="expenseName" placeholder="Name" required>
-            </div>
-            <div class="form-group col-md-4">
-              <input type="date" class="form-control" id="expenseDate" required>
-            </div>
-            <div class="form-group col-md-4">
-              <input type="number" class="form-control" id="expenseAmount" placeholder="Amount" required>
-            </div>
-          </div>
-          <div class="form-row">
-            <div class="form-group col-md-4">
-              <input type="text" class="form-control" id="expenseCategory" placeholder="Category" required>
-            </div>
-            <div class="form-group col-md-8">
-              <input type="text" class="form-control" id="expenseDescription" placeholder="Description">
-            </div>
-          </div>
-          <button type="submit" class="btn btn-primary">Add Expense</button>
-        </form>
-
-        <hr>
-
-        <!-- Income Table -->
-        <h5 class="text-white mb-3">Income Table</h5>
-        <div class="table-responsive">
-          <table class="table table-condensed table-striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Category</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody id="incomeTableBody">
-            </tbody>
-          </table>
         </div>
+    </section>
+    <router-outlet></router-outlet>
 
-        <hr>
+    <script>
+        document.getElementById('incomeForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('incomeName').value;
+            const date = document.getElementById('incomeDate').value;
+            const amount = document.getElementById('incomeAmount').value;
+            const category = document.getElementById('incomeCategory').value;
+            const description = document.getElementById('incomeDescription').value;
 
-        <!-- Expense Table -->
-        <h5 class="text-white mb-3">Expense Table</h5>
-        <div class="table-responsive">
-          <table class="table table-condensed table-striped">
-            <thead>
-              <tr>
-                <th>Name</th>
-                <th>Date</th>
-                <th>Amount</th>
-                <th>Category</th>
-                <th>Description</th>
-              </tr>
-            </thead>
-            <tbody id="expenseTableBody">
-              <!-- Expense data will be appended here -->
-            </tbody>
-          </table>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-<router-outlet></router-outlet>
+            const data = {
+                user_id: 1, // Replace with the dynamic user ID
+                amount: amount,
+                description: description,
+                category: category,
+                date: date
+            };
 
-<script>
-  document.getElementById('incomeForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const name = document.getElementById('incomeName').value;
-    const date = document.getElementById('incomeDate').value;
-    const amount = document.getElementById('incomeAmount').value;
-    const category = document.getElementById('incomeCategory').value;
-    const description = document.getElementById('incomeDescription').value;
+            $.ajax({
+                url: '/api/income/',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(response) {
+                    console.log('Income added', response);
+                    document.getElementById('incomeForm').reset();
+                },
+                error: function(error) {
+                    console.error('Error adding income:', error);
+                }
+            });
+        });
 
-    const row = `<tr>
-                   <td>${name}</td>
-                   <td>${date}</td>
-                   <td>${amount}</td>
-                   <td>${category}</td>
-                   <td>${description}</td>
-                 </tr>`;
-    document.getElementById('incomeTableBody').innerHTML += row;
+        document.getElementById('expenseForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const name = document.getElementById('expenseName').value;
+            const date = document.getElementById('expenseDate').value;
+            const amount = document.getElementById('expenseAmount').value;
+            const category = document.getElementById('expenseCategory').value;
+            const description = document.getElementById('expenseDescription').value;
 
-    document.getElementById('incomeForm').reset();
-  });
+            const data = {
+                email: 'user@example.com', // Replace with the dynamic user email
+                amount: amount,
+                description: description,
+                category: category,
+                date: date
+            };
 
-  document.getElementById('expenseForm').addEventListener('submit', function(event) {
-    event.preventDefault();
-    const name = document.getElementById('expenseName').value;
-    const date = document.getElementById('expenseDate').value;
-    const amount = document.getElementById('expenseAmount').value;
-    const category = document.getElementById('expenseCategory').value;
-    const description = document.getElementById('expenseDescription').value;
-
-    const row = `<tr>
-                   <td>${name}</td>
-                   <td>${date}</td>
-                   <td>${amount}</td>
-                   <td>${category}</td>
-                   <td>${description}</td>
-                 </tr>`;
-    document.getElementById('expenseTableBody').innerHTML += row;
-
-    document.getElementById('expenseForm').reset();
-  });
-</script>
+            $.ajax({
+                url: '/api/expense/',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(data),
+                success: function(response) {
+                    console.log('Expense added', response);
+                    document.getElementById('expenseForm').reset();
+                },
+                error: function(error) {
+                    console.error('Error adding expense:', error);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
