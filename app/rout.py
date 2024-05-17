@@ -21,7 +21,6 @@ session_factory = sessionmaker(bind=engine)
 Session = scoped_session(session_factory)
 Base.metadata.create_all(engine)
 
-
 def get_user_id_by_email(email):
     session = Session()
     try:
@@ -33,7 +32,6 @@ def get_user_id_by_email(email):
     finally:
         session.close()
 
-
 @app.route("/", defaults={"path": ""})
 @app.route("/<path:path>")
 def serve(path):
@@ -42,7 +40,6 @@ def serve(path):
     else:
         raise NotFound()
 
-
 @app.route("/signup/", methods=["POST", "GET"], defaults={"path": "signup"})
 @app.route("/<path:path>")
 def signup(path):
@@ -50,12 +47,7 @@ def signup(path):
         if path != "" and not path.startswith("api/"):
             return send_from_directory(app.static_folder, path)
         else:
-            return (
-                jsonify(
-                    {"status": "error", "message": "GET method not supported here"}
-                ),
-                405,
-            )
+            return jsonify({"status": "error", "message": "GET method not supported here"}), 405
 
     session = Session()
     data = request.get_json()
@@ -74,16 +66,13 @@ def signup(path):
         return jsonify({"status": "error", "message": "Email already exists"}), 409
 
     hashed_password = generate_password_hash(data["password"])
-    new_user = User(
-        fullname=data["fullname"], email=data["email"], password=hashed_password
-    )
+    new_user = User(fullname=data["fullname"], email=data["email"], password=hashed_password)
 
     session.add(new_user)
     session.commit()
     session.close()
 
     return jsonify({"status": "success", "message": "User created"}), 201
-
 
 @app.route("/login/", methods=["POST", "GET"], defaults={"path": "login"})
 @app.route("/<path:path>")
@@ -92,12 +81,7 @@ def login(path):
         if path != "" and not path.startswith("api/"):
             return send_from_directory(app.static_folder, path)
         else:
-            return (
-                jsonify(
-                    {"status": "error", "message": "GET method not supported here"}
-                ),
-                405,
-            )
+            return jsonify({"status": "error", "message": "GET method not supported here"}), 405
 
     session = Session()
     data = request.get_json()
@@ -118,21 +102,15 @@ def login(path):
     session.close()
     return jsonify({"status": "error", "message": "Invalid credentials"}), 401
 
-
 @app.route("/income/", methods=["POST", "GET"], defaults={"path": "income"})
 @app.route("/<path:path>")
 def add_income(path):
     if request.method == "GET":
         if path != "" and not path.startswith("api/"):
             session = Session()
-            category_name = request.args.get("category")
+            category_name = request.args.get('category')
             if category_name:
-                incomes = (
-                    session.query(Income)
-                    .join(IncomeCategory)
-                    .filter(IncomeCategory.name == category_name)
-                    .all()
-                )
+                incomes = session.query(Income).join(IncomeCategory).filter(IncomeCategory.name == category_name).all()
             else:
                 incomes = session.query(Income).all()
             session.close()
@@ -144,18 +122,13 @@ def add_income(path):
                     "category_name": income.category.name,
                     "amount": income.amount,
                     "description": income.description,
-                    "date": income.date,
+                    "date": income.date
                 }
                 for income in incomes
             ]
             return jsonify(income_list), 200
         else:
-            return (
-                jsonify(
-                    {"status": "error", "message": "GET method not supported here"}
-                ),
-                405,
-            )
+            return jsonify({"status": "error", "message": "GET method not supported here"}), 405
 
     if request.method == "POST":
         session = Session()
@@ -169,30 +142,18 @@ def add_income(path):
             session.close()
             return jsonify({"status": "error", "message": "Missing data"}), 400
 
-        category = (
-            session.query(IncomeCategory)
-            .filter(IncomeCategory.name == data["category_name"])
-            .first()
-        )
+        category = session.query(IncomeCategory).filter(IncomeCategory.name == data["category_name"]).first()
         if not category:
-            category = IncomeCategory(
-                name=data["category_name"], user_id=data["user_id"]
-            )
+            category = IncomeCategory(name=data["category_name"], user_id=data["user_id"])
             session.add(category)
             session.commit()
 
-        new_income = Income(
-            user_id=data["user_id"],
-            amount=data["amount"],
-            description=data["description"],
-            category_id=category.id,
-        )
+        new_income = Income(user_id=data["user_id"], amount=data["amount"], description=data["description"], category_id=category.id)
         session.add(new_income)
         session.commit()
         session.close()
 
         return jsonify({"status": "success", "message": "Income added"}), 201
-
 
 @app.route("/expense/", methods=["POST", "GET"], defaults={"path": "expense"})
 @app.route("/<path:path>")
@@ -200,14 +161,9 @@ def add_expense(path):
     if request.method == "GET":
         if path != "" and not path.startswith("api/"):
             session = Session()
-            category_name = request.args.get("category")
+            category_name = request.args.get('category')
             if category_name:
-                expenses = (
-                    session.query(Expense)
-                    .join(ExpenseCategory)
-                    .filter(ExpenseCategory.name == category_name)
-                    .all()
-                )
+                expenses = session.query(Expense).join(ExpenseCategory).filter(ExpenseCategory.name == category_name).all()
             else:
                 expenses = session.query(Expense).all()
             session.close()
@@ -219,18 +175,13 @@ def add_expense(path):
                     "category_name": expense.category.name,
                     "amount": expense.amount,
                     "description": expense.description,
-                    "date": expense.date,
+                    "date": expense.date
                 }
                 for expense in expenses
             ]
             return jsonify(expense_list), 200
         else:
-            return (
-                jsonify(
-                    {"status": "error", "message": "GET method not supported here"}
-                ),
-                405,
-            )
+            return jsonify({"status": "error", "message": "GET method not supported here"}), 405
 
     if request.method == "POST":
         session = Session()
@@ -243,30 +194,21 @@ def add_expense(path):
         if not all(field in data for field in required_fields):
             session.close()
             return jsonify({"status": "error", "message": "Missing data"}), 400
-
+        
         user_id = get_user_id_by_email(data["email"])
-        category = (
-            session.query(ExpenseCategory)
-            .filter(ExpenseCategory.name == data["category_name"])
-            .first()
-        )
+
+        category = session.query(ExpenseCategory).filter(ExpenseCategory.name == data["category_name"]).first()
         if not category:
             category = ExpenseCategory(name=data["category_name"], user_id=user_id)
             session.add(category)
             session.commit()
 
-        new_expense = Expense(
-            user_id=user_id,
-            amount=data["amount"],
-            description=data["description"],
-            category_id=category.id,
-        )
+        new_expense = Expense(user_id=user_id, amount=data["amount"], description=data["description"], category_id=category.id)
         session.add(new_expense)
         session.commit()
         session.close()
 
         return jsonify({"status": "success", "message": "Expense added"}), 201
-
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
