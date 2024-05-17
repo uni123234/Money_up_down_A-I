@@ -120,26 +120,26 @@ def add_income(path):
                 405,
             )
 
-    session = Session()
-    data = request.get_json()
-    if not data:
+    if request.method == "POST":
+        session = Session()
+        data = request.get_json()
+        if not data:
+            session.close()
+            return jsonify({"status": "error", "message": "No JSON data provided"}), 400
+
+        required_fields = ["user_id", "amount", "description"]
+        if not all(field in data for field in required_fields):
+            session.close()
+            return jsonify({"status": "error", "message": "Missing data"}), 400
+
+        new_income = Income(
+            user_id=data["user_id"], amount=data["amount"], description=data["description"]
+        )
+        session.add(new_income)
+        session.commit()
         session.close()
-        return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
-    required_fields = ["user_id", "amount", "description"]
-    if not all(field in data for field in required_fields):
-        session.close()
-        return jsonify({"status": "error", "message": "Missing data"}), 400
-
-    new_income = Income(
-        user_id=data["user_id"], amount=data["amount"], description=data["description"]
-    )
-    session.add(new_income)
-    session.commit()
-    session.close()
-
-    return jsonify({"status": "success", "message": "Income added"}), 201
-
+        return jsonify({"status": "success", "message": "Income added"}), 201
 
 @app.route("/expense/", methods=["POST", "GET"], defaults={"path": "expense"})
 @app.route("/<path:path>")
@@ -155,29 +155,29 @@ def add_expense(path):
                 405,
             )
 
-    session = Session()
-    data = request.get_json()
-    if not data:
+    if request.method == "POST":
+        session = Session()
+        data = request.get_json()
+        if not data:
+            session.close()
+            return jsonify({"status": "error", "message": "No JSON data provided"}), 400
+
+        required_fields = ["user_id", "amount", "description", "category_id"]
+        if not all(field in data for field in required_fields):
+            session.close()
+            return jsonify({"status": "error", "message": "Missing data"}), 400
+
+        new_expense = Expense(
+            user_id=data["user_id"],
+            amount=data["amount"],
+            description=data["description"],
+            category_id=data["category_id"],
+        )
+        session.add(new_expense)
+        session.commit()
         session.close()
-        return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
-    required_fields = ["user_id", "amount", "description", "category_id"]
-    if not all(field in data for field in required_fields):
-        session.close()
-        return jsonify({"status": "error", "message": "Missing data"}), 400
-
-    new_expense = Expense(
-        user_id=data["user_id"],
-        amount=data["amount"],
-        description=data["description"],
-        category_id=data["category_id"],
-    )
-    session.add(new_expense)
-    session.commit()
-    session.close()
-
-    return jsonify({"status": "success", "message": "Expense added"}), 201
-
+        return jsonify({"status": "success", "message": "Expense added"}), 201
 
 @app.route("/categories/", methods=["POST", "GET"], defaults={"path": "categories"})
 @app.route("/<path:path>")
@@ -192,23 +192,24 @@ def add_category(path):
                 ),
                 405,
             )
-    session = Session()
-    data = request.get_json()
-    if not data:
+    if request.method == "POST":
+        session = Session()
+        data = request.get_json()
+        if not data:
+            session.close()
+            return jsonify({"status": "error", "message": "No JSON data provided"}), 400
+
+        required_fields = ["user_id", "name"]
+        if not all(field in data for field in required_fields):
+            session.close()
+            return jsonify({"status": "error", "message": "Missing data"}), 400
+
+        new_category = Category(user_id=data["user_id"], name=data["name"])
+        session.add(new_category)
+        session.commit()
         session.close()
-        return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
-    required_fields = ["user_id", "name"]
-    if not all(field in data for field in required_fields):
-        session.close()
-        return jsonify({"status": "error", "message": "Missing data"}), 400
-
-    new_category = Category(user_id=data["user_id"], name=data["name"])
-    session.add(new_category)
-    session.commit()
-    session.close()
-
-    return jsonify({"status": "success", "message": "Category added"}), 201
+        return jsonify({"status": "success", "message": "Category added"}), 201
 
 
 if __name__ == "__main__":
