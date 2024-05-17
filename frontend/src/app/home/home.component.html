@@ -1,17 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <base href="/" />
-    <title>Income and Expense Tracker</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</head>
-<body>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<base href="/" />
+<title>Income and Expense Tracker</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <section class="gradient-custom d-flex justify-content-center align-items-center vh-100">
         <div class="col">
             <div class="card border mt-4">
@@ -20,51 +16,51 @@
                 </div>
                 <div class="card-body bg-dark">
                     <h5 class="text-white mb-3">Add Income</h5>
-                    <form id="incomeForm">
+                    <form #incomeForm="ngForm" (ngSubmit)="addIncome(incomeForm)" id="incomeForm">
                         <div class="form-row">
                             <div class="form-group col-md-4">
-                                <input type="text" class="form-control" id="incomeName" placeholder="Name" required>
+                                <input type="text" class="form-control" id="incomeName" placeholder="Name" name="name" [(ngModel)]="incomeObj.name" required>
                             </div>
                             <div class="form-group col-md-4">
-                                <input type="date" class="form-control" id="incomeDate" required>
+                                <input type="date" class="form-control" id="incomeDate" name="date" [(ngModel)]="incomeObj.date" required>
                             </div>
                             <div class="form-group col-md-4">
-                                <input type="number" class="form-control" id="incomeAmount" placeholder="Amount" required>
+                                <input type="number" class="form-control" id="incomeAmount" placeholder="Amount" name="amount" [(ngModel)]="incomeObj.amount" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
-                                <input type="text" class="form-control" id="incomeCategory" placeholder="Category" required>
+                                <input type="text" class="form-control" id="incomeCategoryName" placeholder="Category" name="category_name" [(ngModel)]="incomeObj.category_name" required>
                             </div>
                             <div class="form-group col-md-8">
-                                <input type="text" class="form-control" id="incomeDescription" placeholder="Description">
+                                <input type="text" class="form-control" id="incomeDescription" placeholder="Description" name="description" [(ngModel)]="incomeObj.description">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Add Income</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="!incomeForm.valid">Add Income</button>
                     </form>
                     <hr>
                     <h5 class="text-white mb-3">Add Expense</h5>
-                    <form id="expenseForm">
+                    <form id="expenseForm" #expenseForm="ngForm" (ngSubmit)="addExpense(expenseForm)">
                         <div class="form-row">
                             <div class="form-group col-md-4">
-                                <input type="text" class="form-control" id="expenseName" placeholder="Name" required>
+                                <input type="text" class="form-control" id="expenseName" placeholder="Name" name="name" [(ngModel)]="expenseObj.name" required>
                             </div>
                             <div class="form-group col-md-4">
-                                <input type="date" class="form-control" id="expenseDate" required>
+                                <input type="date" class="form-control" id="expenseDate" name="date" [(ngModel)]="expenseObj.date" required>
                             </div>
                             <div class="form-group col-md-4">
-                                <input type="number" class="form-control" id="expenseAmount" placeholder="Amount" required>
+                                <input type="number" class="form-control" id="expenseAmount" placeholder="Amount" name="amount" [(ngModel)]="expenseObj.amount" required>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-4">
-                                <input type="text" class="form-control" id="expenseCategory" placeholder="Category" required>
+                                <input type="text" class="form-control" id="expenseCategory" placeholder="Category" name="category_name" [(ngModel)]="expenseObj.category_name" required>
                             </div>
                             <div class="form-group col-md-8">
-                                <input type="text" class="form-control" id="expenseDescription" placeholder="Description">
+                                <input type="text" class="form-control" id="expenseDescription" placeholder="Description" name="description" [(ngModel)]="expenseObj.description">
                             </div>
                         </div>
-                        <button type="submit" class="btn btn-primary">Add Expense</button>
+                        <button type="submit" class="btn btn-primary" [disabled]="!expenseForm.valid">Add Expense</button>
                     </form>
                     <hr>
                 </div>
@@ -73,7 +69,7 @@
     </section>
     <router-outlet></router-outlet>
 
-    <script>
+    <!-- <script>
         document.getElementById('incomeForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const name = document.getElementById('incomeName').value;
@@ -135,6 +131,4 @@
                 }
             });
         });
-    </script>
-</body>
-</html>
+    </script> -->s

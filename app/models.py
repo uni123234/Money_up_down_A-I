@@ -21,9 +21,8 @@ class Expense(Base):
     amount = Column(Float, nullable=False)
     description = Column(String, nullable=False)
     category_name = Column(String, nullable=False)
-    date = Column(Date, default=date.today)
+    date = Column(String, nullable=False)
     user = relationship('User')
-    category = relationship('ExpenseCategory', lazy='joined', back_populates='expenses')
 
 class Income(Base):
     __tablename__ = "incomes"
@@ -32,5 +31,5 @@ class Income(Base):
     amount = Column(Float, nullable=False)
     description = Column(String, nullable=False)
     category_name = Column(String, nullable=False)
-    date = Column(Date, default=date.today)
+    date = Column(String, nullable=False)
     user = relationship('User')

@@ -27,6 +27,8 @@ export class DataService {
         console.log("token2 " + token)
         if (token) {
           this.authService.setToken(token)
+          const email: string = data.email;
+          this.authService.setUser(email)
         }
         return response.body;
       })
@@ -55,7 +57,7 @@ export class DataService {
   }
 
   putExpense(expense: Expense): Observable<any> {
-    const url = `${'api/expense/'}${expense.id}`;
+    const url = `api/expense/${expense.id}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });

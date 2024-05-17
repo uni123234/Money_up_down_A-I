@@ -72,26 +72,35 @@ export class ExpenseComponent implements OnInit {
   onSubmit(signupForm: NgForm) {
 
     console.log('Saving changes:', this.editObj);
-    const { id, user_id, amount, date, description, category_name } = this.editObj;
+    const { id, amount, date, description, category_name } = this.editObj;
 
     const modal: any = document.getElementById('editModal');
     if (modal) {
       $(modal).modal('hide');
 
-    const editData = { id, user_id, amount, date, description, category_name };
+    const editData = {"id": id,"amount": amount,"date": date,"description": description,"category_name": category_name };
 
     this.dataService.putExpense(editData).subscribe(
       response => {
-        console.log('Expense updated successfully:', response);
+        console.log('Response:', response);
       },
       error => {
-        console.error('Error updating expense:', error);
-      }
-    );
-    }
-  }
+        console.error('Error:', error);
+        // Якщо ви очікуєте JSON, але отримали HTML
+        if (error.status && error.statusText) {
+          console.error(`HTTP Error: ${error.status} ${error.statusText}`);
+        }
+        if (error.error instanceof ErrorEvent) {
+          console.error('Client-side error:', error.error.message);
+        } else {
+          console.error('Server-side error:', error.error);
+        }
+      })
+    } 
     
   }
+
+}
 
 
     // const expenseData = { "email": "a@gmail.com", "amount": 112315, "description" : "FSDDFSF", "category_id" : 2};

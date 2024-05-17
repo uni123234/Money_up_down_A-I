@@ -33,13 +33,12 @@ export class AuthService {
     return of(this.isAuthenticated());
   }
 
-  setUser(user: any): void {
-    localStorage.setItem(this.USER_KEY, JSON.stringify(user));
+  setUser(email: string): void {
+    localStorage.setItem(this.USER_KEY, email);
   }
 
   getUser(): any {
-    const user = localStorage.getItem(this.USER_KEY);
-    return user ? JSON.parse(user) : null;
+    return localStorage.getItem(this.USER_KEY);
   }
 
   removeUser(): void {
