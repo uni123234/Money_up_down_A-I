@@ -38,8 +38,8 @@ export class DataService {
     return this.http.post('api/income/', data);
   }
 
-  getExpense(data: any): Observable<any> {
-    return this.http.get<any[]>('api/expense/', data);
+  getExpense(): Observable<any> {
+    return this.http.get<any[]>('api/expense/');
   }
 
   addExpense(data: any): Observable<any> {

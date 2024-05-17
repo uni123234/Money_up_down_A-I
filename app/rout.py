@@ -146,7 +146,19 @@ def add_income(path):
 def add_expense(path):
     if request.method == "GET":
         if path != "" and not path.startswith("api/"):
-            return send_from_directory(app.static_folder, path)
+            expenses = Session.query(Expense).all()
+            expense_list = [
+                {
+                    "id": expense.id,
+                    "user_id": expense.user_id,
+                    "category_id": expense.category_id,
+                    "amount": expense.amount,
+                    "description": expense.description,
+                    "date": expense.date
+                }
+                for expense in expenses
+            ]
+            return jsonify(expense_list), 200
         else:
             return (
                 jsonify(
@@ -154,7 +166,7 @@ def add_expense(path):
                 ),
                 405,
             )
-
+    
     if request.method == "POST":
         session = Session()
         data = request.get_json()
@@ -183,15 +195,20 @@ def add_expense(path):
 @app.route("/<path:path>")
 def add_category(path):
     if request.method == "GET":
-        if path != "" and not path.startswith("api/"):
-            return send_from_directory(app.static_folder, path)
-        else:
-            return (
-                jsonify(
-                    {"status": "error", "message": "GET method not supported here"}
-                ),
-                405,
-            )
+        expenses = Session.query(Expense).all()
+        expense_list = [
+            {
+                "id": expense.id,
+                "user_id": expense.user_id,
+                "category_id": expense.category_id,
+                "amount": expense.amount,
+                "description": expense.description,
+                "date": expense.date
+            }
+            for expense in expenses
+        ]
+        return jsonify(expense_list), 200
+    
     if request.method == "POST":
         session = Session()
         data = request.get_json()

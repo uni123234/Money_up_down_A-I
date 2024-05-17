@@ -20,10 +20,10 @@ export class ExpenseComponent implements OnInit {
   constructor(private authService: AuthService, private dataService: DataService, private router: Router) {}
 
   ngOnInit(): void {
-    this.dataService.getExpense({"amount": Number, "description": String, "date": String}).subscribe(
+    this.dataService.getExpense().subscribe(
       (data: any[]) => {
         this.dataList = data;
-        console.log(data)
+        console.log(data);
       },
       (error: any) => {
         console.error('Помилка при отриманні даних', error);
