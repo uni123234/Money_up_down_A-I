@@ -39,7 +39,7 @@ export class ExpenseComponent implements OnInit {
       element.classList.toggle('show');
     }
 
-    const expenseData = { "user_id": 1, "amount": 15, "description" : "sfdsfdsdf", "category_id" : 1};
+    const expenseData = { "email": "a@gmail.com", "amount": 115, "description" : "dffffffff", "category_id" : 1};
     this.dataService.addExpense(expenseData).subscribe({
       next: (response) => {console.log('expense successful', response);
       this.router.navigate(['/']);

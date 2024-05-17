@@ -174,13 +174,22 @@ def add_expense(path):
             session.close()
             return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
-        required_fields = ["user_id", "amount", "description", "category_id"]
+        required_fields = ["email", "amount", "description", "category_id"]
         if not all(field in data for field in required_fields):
             session.close()
             return jsonify({"status": "error", "message": "Missing data"}), 400
 
+        try:
+            user = session.query(User).filter_by(email=data["email"]).first()
+            if user:
+                user_id = user.id
+            else:
+                return None
+        finally:
+            session.close()
+
         new_expense = Expense(
-            user_id=data["user_id"],
+            user_id=user_id,
             amount=data["amount"],
             description=data["description"],
             category_id=data["category_id"],
