@@ -133,13 +133,16 @@ def add_income(path):
             return jsonify({"status": "error", "message": "Missing data"}), 400
 
         new_income = Income(
-            user_id=data["user_id"], amount=data["amount"], description=data["description"]
+            user_id=data["user_id"],
+            amount=data["amount"],
+            description=data["description"],
         )
         session.add(new_income)
         session.commit()
         session.close()
 
         return jsonify({"status": "success", "message": "Income added"}), 201
+
 
 @app.route("/expense/", methods=["POST", "GET"], defaults={"path": "expense"})
 @app.route("/<path:path>")
@@ -154,7 +157,7 @@ def add_expense(path):
                     "category_id": expense.category_id,
                     "amount": expense.amount,
                     "description": expense.description,
-                    "date": expense.date
+                    "date": expense.date,
                 }
                 for expense in expenses
             ]
@@ -166,7 +169,7 @@ def add_expense(path):
                 ),
                 405,
             )
-    
+
     if request.method == "POST":
         session = Session()
         data = request.get_json()
@@ -200,6 +203,7 @@ def add_expense(path):
 
         return jsonify({"status": "success", "message": "Expense added"}), 201
 
+
 @app.route("/categories/", methods=["POST", "GET"], defaults={"path": "categories"})
 @app.route("/<path:path>")
 def add_category(path):
@@ -212,12 +216,12 @@ def add_category(path):
                 "category_id": expense.category_id,
                 "amount": expense.amount,
                 "description": expense.description,
-                "date": expense.date
+                "date": expense.date,
             }
             for expense in expenses
         ]
         return jsonify(expense_list), 200
-    
+
     if request.method == "POST":
         session = Session()
         data = request.get_json()
