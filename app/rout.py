@@ -7,7 +7,7 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from werkzeug.exceptions import NotFound
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta, timezone
-from models import Base, User, Expense, Income, Category
+from models import Base, User, Expense, Income, ExpenseCategory, IncomeCategory
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -19,6 +19,18 @@ engine = create_engine("sqlite:///finance.db")
 session_factory = sessionmaker(bind=engine)
 Session = scoped_session(session_factory)
 Base.metadata.create_all(engine)
+
+
+def get_user_id_by_email(email):
+    session = Session()
+    try:
+        user = session.query(User).filter_by(email=email).first()
+        if user:
+            return user.id
+        else:
+            return None
+    finally:
+        session.close()
 
 
 @app.route("/", defaults={"path": ""})
@@ -178,15 +190,8 @@ def add_expense(path):
         if not all(field in data for field in required_fields):
             session.close()
             return jsonify({"status": "error", "message": "Missing data"}), 400
-
-        try:
-            user = session.query(User).filter_by(email=data["email"]).first()
-            if user:
-                user_id = user.id
-            else:
-                return None
-        finally:
-            session.close()
+        
+        user_id = get_user_id_by_email(data["email"])
 
         new_expense = Expense(
             user_id=user_id,
@@ -200,23 +205,20 @@ def add_expense(path):
 
         return jsonify({"status": "success", "message": "Expense added"}), 201
 
-@app.route("/categories/", methods=["POST", "GET"], defaults={"path": "categories"})
+@app.route("/expense/categories/", methods=["POST", "GET"], defaults={"path": "categories"})
 @app.route("/<path:path>")
 def add_category(path):
     if request.method == "GET":
-        expenses = Session.query(Expense).all()
-        expense_list = [
+        expense_categories = Session.query(ExpenseCategory).all()
+        expense_categories_list = [
             {
-                "id": expense.id,
-                "user_id": expense.user_id,
-                "category_id": expense.category_id,
-                "amount": expense.amount,
-                "description": expense.description,
-                "date": expense.date
+                "id": expense_category.id,
+                "user_id": expense_category.user_id,
+                "name": expense_category.name
             }
-            for expense in expenses
+            for expense_category in expense_categories
         ]
-        return jsonify(expense_list), 200
+        return jsonify(expense_categories_list), 200
     
     if request.method == "POST":
         session = Session()
@@ -225,12 +227,14 @@ def add_category(path):
             session.close()
             return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
-        required_fields = ["user_id", "name"]
+        required_fields = ["email", "name"]
         if not all(field in data for field in required_fields):
             session.close()
             return jsonify({"status": "error", "message": "Missing data"}), 400
+        
+        user_id = get_user_id_by_email(data["email"])
 
-        new_category = Category(user_id=data["user_id"], name=data["name"])
+        new_category = ExpenseCategory(user_id=user_id, name=data["name"])
         session.add(new_category)
         session.commit()
         session.close()

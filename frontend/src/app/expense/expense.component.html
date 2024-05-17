@@ -1,74 +1,84 @@
 <router-outlet>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<base href="/expense/" />
-
-<section class="gradient-custom d-flex justify-content-center align-items-center">
-  <div class="col-2 px-sm-2 px-0 bg-dark">
-    <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
-      <button type="submit" class="btn btn-lg px-5 mt-4" (click)="toggleTable()">Показати таблицю</button>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <base href="/expense/" />
+  
+  <section class="gradient-custom d-flex justify-content-center align-items-center">
+    <div class="col-2 px-sm-2 px-0 bg-dark">
+      <div class="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
+        <!-- відступ тут -->
+        <div class="mb-5"></div>
+        <div class="mb-2"></div>
+        <button type="button" class="btn btn-outline-light btn-lg w-100" (click)="toggleTable()">додаткова кнопка</button> <!-- Додано клас btn-lg для збільшення кнопки -->
+      </div>
     </div>
-  </div>
-
-  <div class="col">
-    <div #slideDownTable id="1" class="slide-down-table">
-      <div class="card border">
-        <div class="card-header bg-dark text-white border-bottom">
-          <h5 class="card-title">Ваша таблиця</h5>
-        </div>
-        <div class="card-body bg-dark">
-          <div class="table-responsive">
-            <table class="table table-dark table-striped">
-              <thead class="thead-light">
-                <tr>
-                  <th></th>
-                  <th scope="col">Date</th>
-                  <th scope="col">Amount</th>
-                  <th scope="col">Description</th>
-                </tr>
-              </thead>
-              <tbody class="customtable">
-                <tr>
-                  <th><button class="edit-btn"><i class="edit-icon">&#xf044;</i></button></th>
-                  <td>India</td>
-                  <td>Chrome OS</td>
-                  <td>MAC OS</td>
-                </tr>
-                <tr>
-                  <th><button class="edit-btn"><i class="edit-icon">&#xf044;</i></button></th>
-                  <td>USA</td>
-                  <td>Internet Explorer</td>
-                  <td>Win 2010</td>
-                </tr>
-                <tr>
-                  <th><button class="edit-btn"><i class="edit-icon">&#xf044;</i></button></th>
-                  <td>UK</td>
-                  <td>Safari</td>
-                  <td>Mac OS</td>
-                </tr>
-                <tr>
-                  <th><button class="edit-btn"><i class="edit-icon">&#xf044;</i></button></th>
-                  <td>UAE</td>
-                  <td>Google Chrome</td>
-                  <td>Win 2013</td>
-                </tr>
-                <tr>
-                  <th><button class="edit-btn"><i class="edit-icon">&#xf044;</i></button></th>
-                  <td>Canada</td>
-                  <td>Internet Explorer</td>
-                  <td>Win 2010</td>
-                </tr>
-                <tr>
-                  <th><button class="edit-btn"><i class="edit-icon">&#xf044;"></i></button></th>
-                  <td>Turkey</td>
-                  <td>Internet Explorer 8</td>
-                  <td>Win 2010</td>
-                </tr>
-              </tbody>
-            </table>
+  
+  
+    <div class="col">
+      <div #slideDownTable id="1" class="slide-down-table">
+        <div class="card border">
+          <div class="card-header bg-dark text-white border-bottom">
+            <h5 class="card-title">Ваша таблиця</h5>
+          </div>
+          <div class="card-body bg-dark">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <button class="btn btn-primary" (click)="prevMonth()"><i class="fa fa-chevron-left"></i></button>
+              <h4 class="text-white mb-0">{{currentMonth | date: 'MMMM yyyy'}}</h4>
+              <button class="btn btn-primary" (click)="nextMonth()"><i class="fa fa-chevron-right"></i></button>
+            </div>
+            <div class="table-responsive">
+              <table class="table table-dark table-striped">
+                <thead class="thead-light">
+                  <tr>
+                    <th></th>
+                    <th scope="col">Date</th>
+                    <th scope="col">Amount</th>
+                    <th scope="col">Description</th>
+                  </tr>
+                </thead>
+                <tbody class="customtable">
+                  <tr>
+                    <th><button class="edit-btn"><i class="edit-icon fa fa-pencil"></i></button></th>
+                    <td>India</td>
+                    <td>Chrome OS</td>
+                    <td>MAC OS</td>
+                  </tr>
+                  <tr>
+                    <th><button class="edit-btn"><i class="edit-icon fa fa-pencil"></i></button></th>
+                    <td>USA</td>
+                    <td>Internet Explorer</td>
+                    <td>Win 2010</td>
+                  </tr>
+                  <tr>
+                    <th><button class="edit-btn"><i class="edit-icon fa fa-pencil"></i></button></th>
+                    <td>UK</td>
+                    <td>Safari</td>
+                    <td>Mac OS</td>
+                  </tr>
+                  <tr>
+                    <th><button class="edit-btn"><i class="edit-icon fa fa-pencil"></i></button></th>
+                    <td>UAE</td>
+                    <td>Google Chrome</td>
+                    <td>Win 2013</td>
+                  </tr>
+                  <tr>
+                    <th><button class="edit-btn"><i class="edit-icon fa fa-pencil"></i></button></th>
+                    <td>Canada</td>
+                    <td>Internet Explorer</td>
+                    <td>Win 2010</td>
+                  </tr>
+                  <tr>
+                    <th><button class="edit-btn"><i class="edit-icon fa fa-pencil"></i></button></th>
+                    <td>Turkey</td>
+                    <td>Internet Explorer 8</td>
+                    <td>Win 2010</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-</router-outlet>
+  </section>
+  </router-outlet>
+  
