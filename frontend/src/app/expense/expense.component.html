@@ -1,4 +1,4 @@
-<base href="/expense/"/>
+<base href="/expense/" />
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -64,13 +64,12 @@
               </tr>
             </tbody>
           </table>
-          
         </div>
       </div>
     </div>
   </div>
 </section>
-<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+<div class="modal fade" #editModal id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -80,22 +79,22 @@
         </button>
       </div>
       <div class="modal-body">
-        <form id="editForm" (submit)="onSubmit($event)">
+        <form #signupForm="ngForm" (ngSubmit)="onSubmit(signupForm)">
           <div class="form-group">
             <label for="editDate">Дата</label>
-            <input type="date" class="form-control" id="editDate" [(ngModel)]="editDate" name="date" required>
+            <input type="date" class="form-control" id="editDate" [(ngModel)]="editObj.date" name="date" required>
           </div>
           <div class="form-group">
             <label for="editAmount">Сума</label>
-            <input type="number" class="form-control" id="editAmount" [(ngModel)]="editAmount" name="amount" required>
+            <input type="number" class="form-control" id="editAmount" [(ngModel)]="editObj.amount" name="amount" required>
           </div>
           <div class="form-group">
             <label for="editCategory">Категорія</label>
-            <input type="text" class="form-control" id="editCategory" [(ngModel)]="editCategory" name="category" required>
+            <input type="text" class="form-control" id="editCategory" [(ngModel)]="editObj.category" name="category" required>
           </div>
           <div class="form-group">
             <label for="editDescription">Опис</label>
-            <input type="text" class="form-control" id="editDescription" [(ngModel)]="editDescription" name="description" required>
+            <input type="text" class="form-control" id="editDescription" [(ngModel)]="editObj.description" name="description" required>
           </div>
           <button type="submit" class="btn btn-primary">Зберегти зміни</button>
         </form>

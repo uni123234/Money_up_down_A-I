@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, TemplateRef, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
+import { FormBuilder, FormGroup, FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
 import { Router, RouterOutlet } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { CommonModule, NgIf, NgIfContext } from '@angular/common';
@@ -7,23 +7,22 @@ import { DataService } from '../data.service';
 import { stringify } from 'querystring';
 import bootstrap from '../../main.server';
 
+declare var $: any;
+
 @Component({
   selector: 'app-expense',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, NgIf, CommonModule],
+  imports: [RouterOutlet, FormsModule, NgIf, CommonModule, ReactiveFormsModule],
   templateUrl: './expense.component.html',
   styleUrl: './expense.component.css',
 })
 
 export class ExpenseComponent implements OnInit {
+  @ViewChild('editModal', { static: false }) editModal!: ElementRef;
+  editObj: any = {};
   dataList: any[] | undefined;
   currentMonth: Date = new Date();
-
-  editDate: string | undefined;
-  editAmount: number | undefined;
-  editCategory: string | undefined;
-  editDescription: string | undefined;
-
+  showModal: boolean = false;
 
 
   constructor(private authService: AuthService, private dataService: DataService, private router: Router, private fb: FormBuilder) {}
@@ -59,24 +58,27 @@ export class ExpenseComponent implements OnInit {
   }
 
 
-  editExpense(item: any): void {
-    this.editDate = item.date;
-    this.editAmount = item.amount;
-    this.editCategory = item.category;
-    this.editDescription = item.description;
+  editExpense(item: any) {
+    // Assign the selected item to editObj to prefill the form.
+    this.editObj = { ...item };
+
     const modal: any = document.getElementById('editModal');
     if (modal) {
-      modal.style.display = 'block';
+      $(modal).modal('show'); // Use jQuery to show the modal
     }
   }
 
-  onSubmit(event: Event): void {
-    event.preventDefault();
-    // Обробка збереження змін
+  onSubmit(signupForm: NgForm) {
+    // Processing save changes here (e.g., save to the server or update the array)
+    console.log('Saving changes:', this.editObj);
+
+    // Hide the modal after saving changes
     const modal: any = document.getElementById('editModal');
     if (modal) {
-      modal.style.display = 'none';
+      $(modal).modal('hide'); // Use jQuery to hide the modal
     }
+  }
+    
   }
 
 
@@ -103,5 +105,17 @@ export class ExpenseComponent implements OnInit {
     //     }
     //   },)
 
-    };
 
+
+export class EditTemplate {
+
+  email: string;
+  password: string;
+  username: string;
+
+  constructor() {
+    this.email = ""
+    this.password = ""
+    this.username = ""
+  }
+}
