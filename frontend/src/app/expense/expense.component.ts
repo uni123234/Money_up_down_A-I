@@ -47,7 +47,7 @@ export class ExpenseComponent implements OnInit {
       element.classList.toggle('show');
     }
 
-    // const expenseData = { "email": "a@gmail.com", "amount": 1115, "description" : "eeeeee", "category_id" : 2};
+    // const expenseData = { "email": "a@gmail.com", "amount": 112315, "description" : "FSDDFSF", "category_id" : 2};
     // this.dataService.addExpense(expenseData).subscribe({
     //   next: (response) => {console.log('expense successful', response);
     //   this.router.navigate(['/']);
@@ -59,16 +59,16 @@ export class ExpenseComponent implements OnInit {
     //   },)
 
 
-    const expenseCategoryData = { "email": "a@gmail.com", "name": "category1"};
-    this.dataService.addExpenseCategory(expenseCategoryData).subscribe({
-      next: (response) => {console.log('expense successful', response);
-      this.router.navigate(['/']);
+    // const expenseCategoryData = { "email": "a@gmail.com", "name": "category1"};
+    // this.dataService.addExpenseCategory(expenseCategoryData).subscribe({
+    //   next: (response) => {console.log('expense successful', response);
+    //   this.router.navigate(['/']);
 
-      },
-      error: (error) => {
-        console.log("SFDf", error)
-        }
-      },)
+    //   },
+    //   error: (error) => {
+    //     console.log("SFDf", error)
+    //     }
+    //   },)
 
     };
 

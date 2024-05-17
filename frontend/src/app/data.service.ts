@@ -45,20 +45,4 @@ export class DataService {
   addExpense(data: any): Observable<any> {
     return this.http.post('api/expense/', data);
   }
-
-  getIncomeCategories(): Observable<any> {
-    return this.http.get('api/income/categories/');
-  }
-
-  addIncomeCategory(data: any): Observable<any> {
-    return this.http.post('api/income/categories', data);
-  }
-
-  getExpenseCategories(): Observable<any> {
-    return this.http.get<any[]>('api/expense/categories');
-  }
-
-  addExpenseCategory(data: any): Observable<any> {
-    return this.http.post('api/expense/categories', data);
-  }
 }

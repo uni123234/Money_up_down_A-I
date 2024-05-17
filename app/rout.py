@@ -205,42 +205,6 @@ def add_expense(path):
 
         return jsonify({"status": "success", "message": "Expense added"}), 201
 
-@app.route("/expense/categories/", methods=["POST", "GET"], defaults={"path": "categories"})
-@app.route("/<path:path>")
-def add_category(path):
-    if request.method == "GET":
-        expense_categories = Session.query(ExpenseCategory).all()
-        expense_category_list = [
-            {
-                "id": expense_category.id,
-                "user_id": expense_category.user_id,
-                "name": expense_category.name,
-            }
-            for expense_category in expense_categories
-        ]
-        return jsonify(expense_category_list), 200
-    
-    if request.method == "POST":
-        session = Session()
-        data = request.get_json()
-        if not data:
-            session.close()
-            return jsonify({"status": "error", "message": "No JSON data provided"}), 400
-
-        required_fields = ["email", "name"]
-        if not all(field in data for field in required_fields):
-            session.close()
-            return jsonify({"status": "error", "message": "Missing data"}), 400
-        
-        user_id = get_user_id_by_email(data["email"])
-
-        new_category = ExpenseCategory(user_id=data["user_id"], name=data["name"])
-        session.add(new_category)
-        session.commit()
-        session.close()
-
-        return jsonify({"status": "success", "message": "Category added"}), 201
-
 
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
