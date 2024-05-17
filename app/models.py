@@ -4,6 +4,7 @@ from datetime import datetime, date
 
 Base = declarative_base()
 
+
 class User(Base):
     __tablename__ = "users"
     id = Column(Integer, primary_key=True)
@@ -13,6 +14,7 @@ class User(Base):
     CheckConstraint(
         "length(password) >= 8 AND length(password) <= 16", name="password_length_check"
     )
+
 
 class ExpenseCategory(Base):
     __tablename__ = 'expense_categories'
@@ -28,6 +30,7 @@ class IncomeCategory(Base):
     user_id = Column(Integer, ForeignKey("users.id"))
     user = relationship("User")
 
+
 class Expense(Base):
     __tablename__ = "expenses"
     id = Column(Integer, primary_key=True)
@@ -37,7 +40,7 @@ class Expense(Base):
     description = Column(String, nullable=False)
     date = Column(Date, default=date.today)
     user = relationship('User')
-    category = relationship('ExpenseCategory', back_populates='expenses')
+    category = relationship('ExpenseCategory')
 
 class Income(Base):
     __tablename__ = "incomes"
@@ -48,7 +51,4 @@ class Income(Base):
     description = Column(String, nullable=False)
     date = Column(Date, default=date.today)
     user = relationship('User')
-    category = relationship('IncomeCategory', back_populates='incomes')
-
-ExpenseCategory.expenses = relationship('Expense', order_by=Expense.id, back_populates='category')
-IncomeCategory.incomes = relationship('Income', order_by=Income.id, back_populates='category')
+    category = relationship('IncomeCategory')
