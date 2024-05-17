@@ -13,8 +13,8 @@ export class AuthResolver implements Resolve<boolean> {
     const isAuthenticated = this.authService.isAuthenticated();
     if (isAuthenticated) {
       this.router.navigate(['/']);
-      return of(false);  // Redirected, no need to resolve
+      return of(false);  
     }
-    return of(true);  // Not authenticated, continue to login
+    return of(true);  
   }
 }
