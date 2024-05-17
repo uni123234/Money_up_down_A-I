@@ -1,5 +1,3 @@
-import logging
-import jwt
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from sqlalchemy import create_engine
@@ -7,6 +5,9 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from werkzeug.exceptions import NotFound
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta, timezone
+import jwt
+import logging
+
 from models import Base, User, Expense, Income, ExpenseCategory, IncomeCategory
 
 logging.basicConfig(level=logging.INFO)
@@ -123,7 +124,31 @@ def login(path):
 def add_income(path):
     if request.method == "GET":
         if path != "" and not path.startswith("api/"):
-            return send_from_directory(app.static_folder, path)
+            session = Session()
+            category_name = request.args.get("category")
+            if category_name:
+                incomes = (
+                    session.query(Income)
+                    .join(IncomeCategory)
+                    .filter(IncomeCategory.name == category_name)
+                    .all()
+                )
+            else:
+                incomes = session.query(Income).all()
+            session.close()
+            income_list = [
+                {
+                    "id": income.id,
+                    "user_id": income.user_id,
+                    "category_id": income.category_id,
+                    "category_name": income.category.name,
+                    "amount": income.amount,
+                    "description": income.description,
+                    "date": income.date,
+                }
+                for income in incomes
+            ]
+            return jsonify(income_list), 200
         else:
             return (
                 jsonify(
@@ -139,13 +164,28 @@ def add_income(path):
             session.close()
             return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
-        required_fields = ["user_id", "amount", "description"]
+        required_fields = ["user_id", "amount", "description", "category_name"]
         if not all(field in data for field in required_fields):
             session.close()
             return jsonify({"status": "error", "message": "Missing data"}), 400
 
+        category = (
+            session.query(IncomeCategory)
+            .filter(IncomeCategory.name == data["category_name"])
+            .first()
+        )
+        if not category:
+            category = IncomeCategory(
+                name=data["category_name"], user_id=data["user_id"]
+            )
+            session.add(category)
+            session.commit()
+
         new_income = Income(
-            user_id=data["user_id"], amount=data["amount"], description=data["description"]
+            user_id=data["user_id"],
+            amount=data["amount"],
+            description=data["description"],
+            category_id=category.id,
         )
         session.add(new_income)
         session.commit()
@@ -153,20 +193,33 @@ def add_income(path):
 
         return jsonify({"status": "success", "message": "Income added"}), 201
 
+
 @app.route("/expense/", methods=["POST", "GET"], defaults={"path": "expense"})
 @app.route("/<path:path>")
 def add_expense(path):
     if request.method == "GET":
         if path != "" and not path.startswith("api/"):
-            expenses = Session.query(Expense).all()
+            session = Session()
+            category_name = request.args.get("category")
+            if category_name:
+                expenses = (
+                    session.query(Expense)
+                    .join(ExpenseCategory)
+                    .filter(ExpenseCategory.name == category_name)
+                    .all()
+                )
+            else:
+                expenses = session.query(Expense).all()
+            session.close()
             expense_list = [
                 {
                     "id": expense.id,
                     "user_id": expense.user_id,
                     "category_id": expense.category_id,
+                    "category_name": expense.category.name,
                     "amount": expense.amount,
                     "description": expense.description,
-                    "date": expense.date
+                    "date": expense.date,
                 }
                 for expense in expenses
             ]
@@ -178,7 +231,7 @@ def add_expense(path):
                 ),
                 405,
             )
-    
+
     if request.method == "POST":
         session = Session()
         data = request.get_json()
@@ -186,18 +239,27 @@ def add_expense(path):
             session.close()
             return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
-        required_fields = ["email", "amount", "description", "category_id"]
+        required_fields = ["email", "amount", "description", "category_name"]
         if not all(field in data for field in required_fields):
             session.close()
             return jsonify({"status": "error", "message": "Missing data"}), 400
-        
+
         user_id = get_user_id_by_email(data["email"])
+        category = (
+            session.query(ExpenseCategory)
+            .filter(ExpenseCategory.name == data["category_name"])
+            .first()
+        )
+        if not category:
+            category = ExpenseCategory(name=data["category_name"], user_id=user_id)
+            session.add(category)
+            session.commit()
 
         new_expense = Expense(
             user_id=user_id,
             amount=data["amount"],
             description=data["description"],
-            category_id=data["category_id"],
+            category_id=category.id,
         )
         session.add(new_expense)
         session.commit()
