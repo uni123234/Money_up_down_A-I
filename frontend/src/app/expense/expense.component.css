@@ -135,3 +135,7 @@ th {
 .edit-icon {
     font-family: 'FontAwesome';
 }
+
+.hiddenRow {
+    padding: 0 !important;
+}
