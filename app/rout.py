@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm import sessionmaker, scoped_session, joinedload
 from werkzeug.exceptions import NotFound
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta, timezone
@@ -163,16 +163,16 @@ def add_expense(path):
             session = Session()
             category_name = request.args.get('category')
             if category_name:
-                expenses = session.query(Expense).join(ExpenseCategory).filter(ExpenseCategory.name == category_name).all()
+                expenses = session.query(Expense).join(ExpenseCategory).options(joinedload(Expense.category))
             else:
-                expenses = session.query(Expense).all()
+                expenses = session.query(Expense).options(joinedload(Expense.category)).all()
             session.close()
             expense_list = [
                 {
                     "id": expense.id,
                     "user_id": expense.user_id,
-                    "category_id": expense.category_id,
-                    "category_name": expense.category.name,
+                    "category_id": expense.category.id if expense.category else None,
+                    "category_name": expense.category.name if expense.category else None,
                     "amount": expense.amount,
                     "description": expense.description,
                     "date": expense.date

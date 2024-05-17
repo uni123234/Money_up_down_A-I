@@ -37,7 +37,7 @@ class Expense(Base):
     description = Column(String, nullable=False)
     date = Column(Date, default=date.today)
     user = relationship('User')
-    category = relationship('ExpenseCategory', back_populates='expenses')
+    category = relationship('ExpenseCategory', lazy='joined', back_populates='expenses')
 
 class Income(Base):
     __tablename__ = "incomes"
