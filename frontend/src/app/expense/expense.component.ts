@@ -31,6 +31,7 @@ export class ExpenseComponent implements OnInit {
     this.dataService.getExpense().subscribe(
       (data: any[]) => {
         this.dataList = data;
+        console.log(data)
       },
       (error: any) => {
         console.error('Помилка при отриманні даних', error);
@@ -69,13 +70,24 @@ export class ExpenseComponent implements OnInit {
   }
 
   onSubmit(signupForm: NgForm) {
-    // Processing save changes here (e.g., save to the server or update the array)
-    console.log('Saving changes:', this.editObj);
 
-    // Hide the modal after saving changes
+    console.log('Saving changes:', this.editObj);
+    const { id, user_id, amount, date, description, category_name } = this.editObj;
+
     const modal: any = document.getElementById('editModal');
     if (modal) {
-      $(modal).modal('hide'); // Use jQuery to hide the modal
+      $(modal).modal('hide');
+
+    const editData = { id, user_id, amount, date, description, category_name };
+
+    this.dataService.putExpense(editData).subscribe(
+      response => {
+        console.log('Expense updated successfully:', response);
+      },
+      error => {
+        console.error('Error updating expense:', error);
+      }
+    );
     }
   }
     

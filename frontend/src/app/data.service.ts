@@ -1,8 +1,16 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse } from '@angular/common/http';
 import { HttpClientModule } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 import { AuthService } from './auth.service';
+
+export interface Expense {
+  id: number;
+  category_name: string;
+  amount: number;
+  date: string;
+  description: string;
+}
 
 @Injectable({
   providedIn: 'root',
@@ -44,5 +52,14 @@ export class DataService {
 
   addExpense(data: any): Observable<any> {
     return this.http.post('api/expense/', data);
+  }
+
+  putExpense(expense: Expense): Observable<any> {
+    const url = `${'api/expense/'}${expense.id}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.put(url, expense, { headers });
   }
 }

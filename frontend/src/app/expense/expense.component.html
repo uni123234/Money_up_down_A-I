@@ -22,7 +22,6 @@
           <table class="table table-condensed table-striped">
             <thead>
               <tr>
-                <th>Ім'я</th>
                 <th>Дата</th>
                 <th>Сума</th>
                 <th>Категорія</th>
@@ -31,7 +30,6 @@
             </thead>
             <tbody id="expenseTableBody">
               <tr data-toggle="collapse" data-target="#demo1" class="accordion-toggle">
-                <td>Carlos</td>
                 <td>Fri, 17 May 2024 00:00:00 GMT</td>
                 <td>115</td>
                 <td>Їжа</td>
@@ -62,7 +60,7 @@
                   </div>
                 </td>
               </tr>
-            </tbody>
+            </tbody> 
           </table>
         </div>
       </div>
@@ -90,7 +88,7 @@
           </div>
           <div class="form-group">
             <label for="editCategory">Категорія</label>
-            <input type="text" class="form-control" id="editCategory" [(ngModel)]="editObj.category" name="category" required>
+            <input type="text" class="form-control" id="editCategory" [(ngModel)]="editObj.category_name" name="category" required>
           </div>
           <div class="form-group">
             <label for="editDescription">Опис</label>

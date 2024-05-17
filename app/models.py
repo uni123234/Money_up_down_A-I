@@ -14,41 +14,22 @@ class User(Base):
         "length(password) >= 8 AND length(password) <= 16", name="password_length_check"
     )
 
-class ExpenseCategory(Base):
-    __tablename__ = 'expense_categories'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255), nullable=False)
-    user_id = Column(Integer, ForeignKey('users.id'))
-    user = relationship('User')
-
-class IncomeCategory(Base):
-    __tablename__ = 'income_categories'
-    id = Column(Integer, primary_key=True)
-    name = Column(String(255), nullable=False)
-    user_id = Column(Integer, ForeignKey("users.id"))
-    user = relationship("User")
-
 class Expense(Base):
     __tablename__ = "expenses"
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
-    category_id = Column(Integer, ForeignKey('expense_categories.id'))
     amount = Column(Float, nullable=False)
     description = Column(String, nullable=False)
+    category_name = Column(String, nullable=False)
     date = Column(Date, default=date.today)
     user = relationship('User')
-    category = relationship('ExpenseCategory', lazy='joined', back_populates='expenses')
 
 class Income(Base):
     __tablename__ = "incomes"
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey('users.id'))
-    category_id = Column(Integer, ForeignKey('income_categories.id'))
     amount = Column(Float, nullable=False)
     description = Column(String, nullable=False)
+    category_name = Column(String, nullable=False)
     date = Column(Date, default=date.today)
     user = relationship('User')
-    category = relationship('IncomeCategory', back_populates='incomes')
-
-ExpenseCategory.expenses = relationship('Expense', order_by=Expense.id, back_populates='category')
-IncomeCategory.incomes = relationship('Income', order_by=Income.id, back_populates='category')
