@@ -3,6 +3,8 @@ import { FormsModule } from '@angular/forms';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from '../auth.service';
 import { NgIf, NgIfContext } from '@angular/common';
+import { DataService } from '../data.service';
+import { stringify } from 'querystring';
 
 @Component({
   selector: 'app-expense',
@@ -12,9 +14,22 @@ import { NgIf, NgIfContext } from '@angular/common';
   styleUrl: './expense.component.css',
 })
 
-export class ExpenseComponent {
+export class ExpenseComponent implements OnInit {
+  dataList: any[] | undefined;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private dataService: DataService) {}
+
+  ngOnInit(): void {
+    this.dataService.getExpense({"amount": Number, "description": String, "date": String}).subscribe(
+      (data: any[]) => {
+        this.dataList = data;
+      },
+      (error: any) => {
+        console.error('Помилка при отриманні даних', error);
+      }
+    );
+  }
+  
 
   toggleTable() {
     console.log("works")
