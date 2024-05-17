@@ -7,8 +7,6 @@ from sqlalchemy.orm import sessionmaker, scoped_session
 from werkzeug.exceptions import NotFound
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime, timedelta, timezone
-
-# Ensure Category is imported
 from models import Base, User, Expense, Income, Category
 
 logging.basicConfig(level=logging.INFO)
@@ -179,21 +177,6 @@ def add_expense(path):
     session.close()
 
     return jsonify({"status": "success", "message": "Expense added"}), 201
-
-
-@app.route("/categories/", methods=["POST", "GET"], defaults={"path": "categories"})
-@app.route("/<path:path>")
-def add_category(path):
-    if request.method == "GET":
-        if path != "" and not path.startswith("api/"):
-            return send_from_directory(app.static_folder, path)
-        else:
-            return (
-                jsonify(
-                    {"status": "error", "message": "GET method not supported here"}
-                ),
-                405,
-            )
 
 
 @app.route("/categories/", methods=["POST", "GET"], defaults={"path": "categories"})
