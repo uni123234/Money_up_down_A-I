@@ -145,16 +145,13 @@ def add_income(path):
             return jsonify({"status": "error", "message": "Missing data"}), 400
 
         new_income = Income(
-            user_id=data["user_id"],
-            amount=data["amount"],
-            description=data["description"],
+            user_id=data["user_id"], amount=data["amount"], description=data["description"]
         )
         session.add(new_income)
         session.commit()
         session.close()
 
         return jsonify({"status": "success", "message": "Income added"}), 201
-
 
 @app.route("/expense/", methods=["POST", "GET"], defaults={"path": "expense"})
 @app.route("/<path:path>")
@@ -169,7 +166,7 @@ def add_expense(path):
                     "category_id": expense.category_id,
                     "amount": expense.amount,
                     "description": expense.description,
-                    "date": expense.date,
+                    "date": expense.date
                 }
                 for expense in expenses
             ]
@@ -181,7 +178,7 @@ def add_expense(path):
                 ),
                 405,
             )
-
+    
     if request.method == "POST":
         session = Session()
         data = request.get_json()
@@ -213,15 +210,15 @@ def add_expense(path):
 def add_category(path):
     if request.method == "GET":
         expense_categories = Session.query(ExpenseCategory).all()
-        expense_categories_list = [
+        expense_category_list = [
             {
                 "id": expense_category.id,
                 "user_id": expense_category.user_id,
-                "name": expense_category.name
+                "name": expense_category.name,
             }
             for expense_category in expense_categories
         ]
-        return jsonify(expense_categories_list), 200
+        return jsonify(expense_category_list), 200
     
     if request.method == "POST":
         session = Session()
@@ -237,13 +234,12 @@ def add_category(path):
         
         user_id = get_user_id_by_email(data["email"])
 
-        new_category = ExpenseCategory(user_id=user_id, name=data["name"])
+        new_category = ExpenseCategory(user_id=data["user_id"], name=data["name"])
         session.add(new_category)
         session.commit()
         session.close()
 
         return jsonify({"status": "success", "message": "Category added"}), 201
-
 
 
 if __name__ == "__main__":
