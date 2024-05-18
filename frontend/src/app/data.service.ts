@@ -12,6 +12,14 @@ export interface Expense {
   description: string;
 }
 
+export interface Income {
+  id: number;
+  category_name: string;
+  amount: number;
+  date: string;
+  description: string;
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -66,12 +74,12 @@ export class DataService {
     return this.http.put<any>(url, expense, { headers });
   }
 
-  putIncome(expense: Expense): Observable<any> {
-    const url = `${this.apiUrl}/expense/${expense.id}`;
+  putIncome(income: Income): Observable<any> {
+    const url = `${this.apiUrl}/income/${income.id}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
 
-    return this.http.put<any>(url, expense, { headers });
+    return this.http.put<any>(url, income, { headers });
   }
 }
