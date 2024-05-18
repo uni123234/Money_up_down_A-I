@@ -11,8 +11,8 @@ import { HomeComponent } from './home/home.component';
 export const routes: Routes = [
   { path: 'expense', component: ExpenseComponent},
   { path: 'income', component: IncomeComponent},
-  { path: 'login', component: LoginComponent},
-  { path: 'signup', component: SignupComponent},
+  { path: 'login', component: LoginComponent, canActivate: [LoginGuard]},
+  { path: 'signup', component: SignupComponent, canActivate: [LoginGuard]},
   { path: '', component: HomeComponent, canActivate: [AuthGuard]},
   { path: '**', redirectTo: '' },
 ];
