@@ -52,7 +52,7 @@ export class ExpenseComponent implements OnInit {
 
   toggleTable() {
     console.log("works")
-    const element = document.getElementById("1");
+    const element = document.getElementById("");
     if (element) {
       element.classList.toggle('show');
     }
@@ -99,31 +99,6 @@ export class ExpenseComponent implements OnInit {
   }
 
 }
-
-
-    // const expenseData = { "email": "a@gmail.com", "amount": 112315, "description" : "FSDDFSF", "category_id" : 2};
-    // this.dataService.addExpense(expenseData).subscribe({
-    //   next: (response) => {console.log('expense successful', response);
-    //   this.router.navigate(['/']);
-
-    //   },
-    //   error: (error) => {
-    //     console.log("SFDf", error)
-    //     }
-    //   },)
-
-
-    // const expenseCategoryData = { "email": "a@gmail.com", "name": "category1"};
-    // this.dataService.addExpenseCategory(expenseCategoryData).subscribe({
-    //   next: (response) => {console.log('expense successful', response);
-    //   this.router.navigate(['/']);
-
-    //   },
-    //   error: (error) => {
-    //     console.log("SFDf", error)
-    //     }
-    //   },)
-
 
 
 export class EditTemplate {
