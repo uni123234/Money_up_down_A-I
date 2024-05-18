@@ -125,16 +125,14 @@ def income_handler(path):
     if request.method == "GET":
         if path != "" and not path.startswith("api/"):
             session = Session()
-            incomes = (
-                session.query(Income)
-            )
+            incomes = session.query(Income)
 
             session.close()
             income_list = [
                 {
                     "id": income.id,
                     "user_id": income.user_id,
-                    "category_name": income.category_name, 
+                    "category_name": income.category_name,
                     "amount": income.amount,
                     "description": income.description,
                     "date": income.date,
@@ -161,7 +159,7 @@ def income_handler(path):
         if not all(field in data for field in required_fields):
             session.close()
             return jsonify({"status": "error", "message": "Missing data"}), 400
-        
+
         user_id = get_user_id_by_email(data["email"])
 
         new_income = Income(
@@ -169,7 +167,7 @@ def income_handler(path):
             amount=data["amount"],
             description=data["description"],
             category_name=data["category_name"],
-            date=data["date"]
+            date=data["date"],
         )
         session.add(new_income)
         session.commit()
@@ -209,7 +207,6 @@ def income_handler(path):
         session.commit()
         session.close()
 
-
         return jsonify({"status": "success", "message": "income updated"}), 200
 
 
@@ -219,10 +216,8 @@ def income_handler(path):
 def expense_handler(path):
     if request.method == "GET":
         if path != "" and not path.startswith("api/"):
-            session = Session()      
-            expenses = (
-                session.query(Expense)
-            )
+            session = Session()
+            expenses = session.query(Expense)
 
             expense_list = [
                 {
@@ -255,7 +250,7 @@ def expense_handler(path):
         if not all(field in data for field in required_fields):
             session.close()
             return jsonify({"status": "error", "message": "Missing data"}), 400
-        
+
         user_id = get_user_id_by_email(data["email"])
 
         new_expense = Expense(
@@ -263,7 +258,7 @@ def expense_handler(path):
             amount=data["amount"],
             description=data["description"],
             category_name=data["category_name"],
-            date=data["date"]
+            date=data["date"],
         )
         session.add(new_expense)
         session.commit()
@@ -303,7 +298,6 @@ def expense_handler(path):
 
         session.commit()
         session.close()
-
 
         return jsonify({"status": "success", "message": "Expense updated"}), 200
 

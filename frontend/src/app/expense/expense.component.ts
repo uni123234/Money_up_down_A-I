@@ -60,12 +60,11 @@ export class ExpenseComponent implements OnInit {
 
 
   editExpense(item: any) {
-    // Assign the selected item to editObj to prefill the form.
     this.editObj = { ...item };
 
     const modal: any = document.getElementById('editModal');
     if (modal) {
-      $(modal).modal('show'); // Use jQuery to show the modal
+      $(modal).modal('show'); 
     }
   }
 
@@ -86,7 +85,6 @@ export class ExpenseComponent implements OnInit {
       },
       error => {
         console.error('Error:', error);
-        // Якщо ви очікуєте JSON, але отримали HTML
         if (error.status && error.statusText) {
           console.error(`HTTP Error: ${error.status} ${error.statusText}`);
         }

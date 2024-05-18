@@ -19,7 +19,7 @@ export class HomeComponent {
   incomeObj: any = {};
 
   incomeData = {
-    user_id: 1, // Replace with dynamic user ID
+    user_id: 1, 
     name: '',
     date: '',
     amount: 0,
@@ -28,7 +28,7 @@ export class HomeComponent {
   };
 
   expenseData = {
-    user_id: 1, // Replace with dynamic user ID
+    user_id: 1, 
     name: '',
     date: '',
     amount: 0,
@@ -39,11 +39,6 @@ export class HomeComponent {
   constructor(private dataService: DataService, router: Router, private authService: AuthService) {}
 
   addIncome(signupForm: NgForm) {
-    // this.dataService.addIncome(this.incomeData).subscribe(response => {
-    //   console.log('Income added', response);
-      // this.resetIncomeForm();
-    // });
-    
       const { amount, date, description, category_name } = this.incomeObj;
       const email = this.authService.getUser()
       this.dataService.addIncome({"email": email, "amount": amount, "date": date, "description": description, "category_name": category_name}).subscribe({
@@ -69,26 +64,4 @@ export class HomeComponent {
         }
       },)
   }
-
-  // resetIncomeForm() {
-  //   this.incomeData = {
-  //     user_id: 1, // Replace with dynamic user ID
-  //     name: '',
-  //     date: '',
-  //     amount: 0,
-  //     category: '',
-  //     description: ''
-  //   };
-  // }
-
-  // resetExpenseForm() {
-  //   this.expenseData = {
-  //     user_id: 1, // Replace with dynamic user ID
-  //     name: '',
-  //     date: '',
-  //     amount: 0,
-  //     category: '',
-  //     description: ''
-  //   };
-  // }
 }

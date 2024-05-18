@@ -16,7 +16,7 @@ import { NgForm } from '@angular/forms'
 
 
 export class SignupComponent {
-  signupObj: any = {}; // Або використайте ваш тип SignupTemplate, якщо ви його визначили
+  signupObj: any = {}; 
   emailError: string | null = null;
   successMessage: string | null = null;
 
