@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
-import { HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { DataService } from '../data.service';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
@@ -18,50 +18,44 @@ export class HomeComponent {
   expenseObj: any = {};
   incomeObj: any = {};
 
-  incomeData = {
-    user_id: 1, 
-    name: '',
-    date: '',
-    amount: 0,
-    category: '',
-    description: ''
-  };
+  incomeMessage: string = '';
+  expenseMessage: string = '';
 
-  expenseData = {
-    user_id: 1, 
-    name: '',
-    date: '',
-    amount: 0,
-    category: '',
-    description: ''
-  };
+  constructor(private dataService: DataService, private router: Router, private authService: AuthService) {}
 
-  constructor(private dataService: DataService, router: Router, private authService: AuthService) {}
-
-  addIncome(signupForm: NgForm) {
+  addIncome(incomeForm: NgForm) {
+    if (incomeForm.valid) {
       const { amount, date, description, category_name } = this.incomeObj;
-      const email = this.authService.getUser()
-      this.dataService.addIncome({"email": email, "amount": amount, "date": date, "description": description, "category_name": category_name}).subscribe({
-      next: (response) => {console.log('income successful', response);
-
-      },
-      error: (error) => {
-        console.log("SFDf", error)
+      const email = this.authService.getUser();
+      this.dataService.addIncome({ email, amount, date, description, category_name }).subscribe({
+        next: (response) => {
+          console.log('Income added successfully', response);
+          this.incomeMessage = 'Дохід добавлений!';
+          setTimeout(() => this.incomeMessage = '', 3000);
+          incomeForm.resetForm();
+        },
+        error: (error) => {
+          console.log('Error adding income', error);
         }
-      },)
+      });
+    }
   }
 
-  addExpense(signupForm: NgForm) {
-    
+  addExpense(expenseForm: NgForm) {
+    if (expenseForm.valid) {
       const { amount, date, description, category_name } = this.expenseObj;
-      const email = this.authService.getUser()
-      this.dataService.addExpense({"email": email, "amount": amount, "date": date, "description": description, "category_name": category_name}).subscribe({
-      next: (response) => {console.log('expense successful', response);
-
-      },
-      error: (error) => {
-        console.log("SFDf", error)
+      const email = this.authService.getUser();
+      this.dataService.addExpense({ email, amount, date, description, category_name }).subscribe({
+        next: (response) => {
+          console.log('Expense added successfully', response);
+          this.expenseMessage = 'Витрата добавлена!';
+          setTimeout(() => this.expenseMessage = '', 3000);
+          expenseForm.resetForm();
+        },
+        error: (error) => {
+          console.log('Error adding expense', error);
         }
-      },)
+      });
+    }
   }
 }
