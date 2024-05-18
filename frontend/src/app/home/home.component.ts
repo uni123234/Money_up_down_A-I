@@ -18,8 +18,8 @@ export class HomeComponent {
   expenseObj: any = {};
   incomeObj: any = {};
 
-  incomeMessage: string = '';
-  expenseMessage: string = '';
+  incomeMessage: string | null = null;
+  expenseMessage: string | null = null;
 
   constructor(private dataService: DataService, private router: Router, private authService: AuthService) {}
 
@@ -33,6 +33,7 @@ export class HomeComponent {
           this.incomeMessage = 'Дохід добавлений!';
           setTimeout(() => this.incomeMessage = '', 3000);
           incomeForm.resetForm();
+          this.incomeMessage = "Ви успішно додали надходження"
         },
         error: (error) => {
           console.log('Error adding income', error);
@@ -51,6 +52,7 @@ export class HomeComponent {
           this.expenseMessage = 'Витрата добавлена!';
           setTimeout(() => this.expenseMessage = '', 3000);
           expenseForm.resetForm();
+          this.expenseMessage = "Ви успішно додали витрату"
         },
         error: (error) => {
           console.log('Error adding expense', error);
