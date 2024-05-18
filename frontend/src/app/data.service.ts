@@ -55,13 +55,14 @@ export class DataService {
   addExpense(data: any): Observable<any> {
     return this.http.post('api/expense/', data);
   }
-
+  private apiUrl = 'http://localhost:5000'
+  
   putExpense(expense: Expense): Observable<any> {
-    const url = `api/expense/${expense.id}`;
+    const url = `${this.apiUrl}/expense/${expense.id}`;
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
     });
 
-    return this.http.put(url, expense, { headers });
+    return this.http.put<any>(url, expense, { headers });
   }
 }

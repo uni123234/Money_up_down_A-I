@@ -211,13 +211,13 @@ def income_handler(path):
 
 
 @app.route("/expense/", methods=["POST", "GET"], defaults={"path": "expense"})
-@app.route("/api/expense/<int:id>", methods=["PUT"])
+@app.route("/expense/<int:id>", methods=["PUT"])
 @app.route("/<path:path>")
-def expense_handler(path):
+def expense_handler(path=None, id=None):
     if request.method == "GET":
-        if path != "" and not path.startswith("api/"):
+        if path and path != "" and not path.startswith("api/"):
             session = Session()
-            expenses = session.query(Expense)
+            expenses = session.query(Expense).all()
 
             expense_list = [
                 {
@@ -230,6 +230,7 @@ def expense_handler(path):
                 }
                 for expense in expenses
             ]
+            session.close()
             return jsonify(expense_list), 200
         else:
             return (
@@ -268,21 +269,16 @@ def expense_handler(path):
 
     if request.method == "PUT":
         print("Received PUT request")
+        if not id:
+            return jsonify({"status": "error", "message": "No ID provided"}), 400
+
         session = Session()
         data = request.get_json()
-        if not data or "id" not in data:
+        if not data:
             session.close()
-            return (
-                jsonify(
-                    {
-                        "status": "error",
-                        "message": "No JSON data provided or missing ID",
-                    }
-                ),
-                400,
-            )
+            return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
-        expense = session.query(Expense).filter(Expense.id == data["id"]).first()
+        expense = session.query(Expense).filter(Expense.id == id).first()
         if not expense:
             session.close()
             return jsonify({"status": "error", "message": "Expense not found"}), 404
@@ -294,7 +290,7 @@ def expense_handler(path):
         if "date" in data:
             expense.date = data["date"]
         if "category_name" in data:
-            expense.date = data["category_name"]
+            expense.category_name = data["category_name"]
 
         session.commit()
         session.close()
