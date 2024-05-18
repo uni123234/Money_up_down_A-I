@@ -1,0 +1,180 @@
+@import url(http://fonts.googleapis.com/css?family=Calibri:400,300,700);
+
+.slide-down-table {
+    position: fixed;
+    top: -100%; 
+    left: 17%; 
+    transform: translateX(-4%);
+    right: 0;
+    transition: top 0.5s; 
+    z-index: 5; 
+    
+  }
+
+.slide-down-table.show {
+    top: 10%; 
+  }
+  
+
+.gradient-custom {
+    background: #6a11cb;
+  
+    background: -webkit-linear-gradient(
+      to right,
+      rgba(106, 17, 203, 1),
+      rgba(37, 117, 252, 1)
+    );
+  
+    background: linear-gradient(
+      to right,
+      rgba(106, 17, 203, 1),
+      rgba(37, 117, 252, 1)
+    );
+  }
+
+  .container {
+    margin-top: 100px;
+}
+
+.card {
+    position: relative;
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    min-width: 0;
+    word-wrap: break-word;
+    background-color: #fff;
+    background-clip: border-box;
+    border: 0px solid transparent;
+    border-radius: 0px;
+}
+
+.card-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
+
+.card .card-title {
+    position: relative;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.table {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 1rem;
+    background-color: transparent;
+}
+
+.table-dark {
+    background-color: #343a40;
+    color: white;
+}
+
+.table-dark th,
+.table-dark td,
+.table-dark thead th {
+    border-color: #454d55;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(255, 255, 255, 0.05);
+}
+
+* {
+    outline: none;
+}
+
+.table th, .table thead th {
+    font-weight: 500;
+}
+
+.table thead th {
+    vertical-align: bottom;
+    border-bottom: 2px solid #dee2e6;
+}
+
+.table th {
+    padding: 1rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+th {
+    text-align: inherit;
+}
+
+.m-b-20 {
+    margin-bottom: 20px;
+}
+
+.edit-btn {
+    background-color: #2196BB;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.edit-btn:hover {
+    background-color: #1976A3;
+}
+
+.edit-icon {
+    font-family: 'FontAwesome';
+}
+
+.hiddenRow {
+    padding: 0 !important;
+}
+
+.gradient-custom {
+    background: linear-gradient(to right, #6a11cb, #2575fc);
+}
+.vh-100 {
+    height: 100vh;
+}
+.modal-content {
+    background-color: #343a40;
+    color: white;
+}
+.modal-header, .modal-footer {
+    border-color: #454d55;
+}
+.form-control {
+    background-color: #454d55;
+    color: white;
+    border-color: #6c757d;
+}
+.form-control:focus {
+    background-color: #454d55;
+    color: white;
+    border-color: #6c757d;
+}
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+.card-header {
+    background-color: #212529;
+    border-bottom-color: #454d55;
+}
+.card-body {
+    background-color: #212529;
+}
+.table thead th {
+    background-color: #343a40;
+    color: white;
+}
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: #2c3034;
+}

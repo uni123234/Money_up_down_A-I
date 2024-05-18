@@ -41,7 +41,7 @@ export class DataService {
   }
 
   getIncome(): Observable<any> {
-    return this.http.get('api/income/');
+    return this.http.get<any[]>('api/income/');
   }
 
   addIncome(data: any): Observable<any> {
@@ -58,6 +58,15 @@ export class DataService {
   private apiUrl = 'http://localhost:5000'
   
   putExpense(expense: Expense): Observable<any> {
+    const url = `${this.apiUrl}/expense/${expense.id}`;
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json',
+    });
+
+    return this.http.put<any>(url, expense, { headers });
+  }
+
+  putIncome(expense: Expense): Observable<any> {
     const url = `${this.apiUrl}/expense/${expense.id}`;
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
