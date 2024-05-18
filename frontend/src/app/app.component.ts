@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
-import { AuthService } from './auth.service';
-import { CommonModule } from '@angular/common';
-import { Observable } from 'rxjs';
+import { CommonModule, isPlatformBrowser } from "@angular/common";
+import { HttpClientModule } from "@angular/common/http";
+import { Component, OnInit, Inject, PLATFORM_ID } from "@angular/core";
+import { RouterOutlet } from "@angular/router";
+import { AuthService } from "./auth.service";
 
 @Component({
   selector: 'app-root',
@@ -16,9 +15,12 @@ import { Observable } from 'rxjs';
 export class AppComponent implements OnInit {
   title = 'Transaction';
   isAuthenticated: boolean = false
+  isBrowser: boolean;
 
 
-  constructor (private authService: AuthService) {}
+  constructor (@Inject(PLATFORM_ID) private platformId: Object ,private authService: AuthService) {
+    this.isBrowser = isPlatformBrowser(this.platformId);
+  }
 
   ngOnInit(): void {
     this.isAuthenticated = this.authService.isAuthenticated()
