@@ -119,15 +119,15 @@ def login(path):
     return jsonify({"status": "error", "message": "Invalid credentials"}), 401
 
 
-@app.route("/income/", methods=["POST", "GET", "PUT"], defaults={"path": "income"})
+@app.route("/income/", methods=["POST", "GET"], defaults={"path": "income"})
+@app.route("/income/<int:id>", methods=["PUT"])
 @app.route("/<path:path>")
-def income_handler(path):
+def income_handler(path=None, id=None):
     if request.method == "GET":
-        if path != "" and not path.startswith("api/"):
+        if path and path != "" and not path.startswith("api/"):
             session = Session()
-            incomes = session.query(Income)
+            incomes = session.query(Income).all()
 
-            session.close()
             income_list = [
                 {
                     "id": income.id,
@@ -139,6 +139,7 @@ def income_handler(path):
                 }
                 for income in incomes
             ]
+            session.close()
             return jsonify(income_list), 200
         else:
             return (
@@ -173,27 +174,23 @@ def income_handler(path):
         session.commit()
         session.close()
 
-        return jsonify({"status": "success", "message": "income added"}), 201
+        return jsonify({"status": "success", "message": "Income added"}), 201
 
     if request.method == "PUT":
+        print("Received PUT request")
+        if not id:
+            return jsonify({"status": "error", "message": "No ID provided"}), 400
+
         session = Session()
         data = request.get_json()
-        if not data or "id" not in data:
+        if not data:
             session.close()
-            return (
-                jsonify(
-                    {
-                        "status": "error",
-                        "message": "No JSON data provided or missing ID",
-                    }
-                ),
-                400,
-            )
+            return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
-        income = session.query(Income).filter(Income.id == data["id"]).first()
+        income = session.query(Income).filter(Income.id == id).first()
         if not income:
             session.close()
-            return jsonify({"status": "error", "message": "income not found"}), 404
+            return jsonify({"status": "error", "message": "Income not found"}), 404
 
         if "amount" in data:
             income.amount = data["amount"]
@@ -202,12 +199,13 @@ def income_handler(path):
         if "date" in data:
             income.date = data["date"]
         if "category_name" in data:
-            income.date = data["category_name"]
+            income.category_name = data["category_name"]
 
         session.commit()
         session.close()
 
-        return jsonify({"status": "success", "message": "income updated"}), 200
+        return jsonify({"status": "success", "message": "Income updated"}), 200
+
 
 
 @app.route("/expense/", methods=["POST", "GET"], defaults={"path": "expense"})
