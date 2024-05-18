@@ -157,13 +157,15 @@ def income_handler(path):
             session.close()
             return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
-        required_fields = ["user_id", "amount", "description", "date", "category_name"]
+        required_fields = ["email", "amount", "description", "date", "category_name"]
         if not all(field in data for field in required_fields):
             session.close()
             return jsonify({"status": "error", "message": "Missing data"}), 400
+        
+        user_id = get_user_id_by_email(data["email"])
 
         new_income = Income(
-            user_id=data["user_id"],
+            user_id=user_id,
             amount=data["amount"],
             description=data["description"],
             category_name=data["category_name"],
@@ -211,7 +213,8 @@ def income_handler(path):
         return jsonify({"status": "success", "message": "income updated"}), 200
 
 
-@app.route("/expense/", methods=["POST", "GET", "PUT"], defaults={"path": "expense"})
+@app.route("/expense/", methods=["POST", "GET"], defaults={"path": "expense"})
+@app.route("/api/expense/<int:id>", methods=["PUT"])
 @app.route("/<path:path>")
 def expense_handler(path):
     if request.method == "GET":
@@ -248,13 +251,15 @@ def expense_handler(path):
             session.close()
             return jsonify({"status": "error", "message": "No JSON data provided"}), 400
 
-        required_fields = ["user_id", "amount", "description", "date", "category_name"]
+        required_fields = ["email", "amount", "description", "date", "category_name"]
         if not all(field in data for field in required_fields):
             session.close()
             return jsonify({"status": "error", "message": "Missing data"}), 400
+        
+        user_id = get_user_id_by_email(data["email"])
 
         new_expense = Expense(
-            user_id=data["user_id"],
+            user_id=user_id,
             amount=data["amount"],
             description=data["description"],
             category_name=data["category_name"],
@@ -267,6 +272,7 @@ def expense_handler(path):
         return jsonify({"status": "success", "message": "Expense added"}), 201
 
     if request.method == "PUT":
+        print("Received PUT request")
         session = Session()
         data = request.get_json()
         if not data or "id" not in data:

@@ -45,8 +45,8 @@ export class HomeComponent {
     // });
     
       const { amount, date, description, category_name } = this.incomeObj;
-      const user_id = this.authService.getUser()
-      this.dataService.addIncome({"user_id": user_id, "amount": amount, "date": date, "description": description, "category_name": category_name}).subscribe({
+      const email = this.authService.getUser()
+      this.dataService.addIncome({"email": email, "amount": amount, "date": date, "description": description, "category_name": category_name}).subscribe({
       next: (response) => {console.log('income successful', response);
 
       },
@@ -59,8 +59,8 @@ export class HomeComponent {
   addExpense(signupForm: NgForm) {
     
       const { amount, date, description, category_name } = this.expenseObj;
-      const user_id = this.authService.getUser()
-      this.dataService.addExpense({"user_id": user_id, "amount": amount, "date": date, "description": description, "category_name": category_name}).subscribe({
+      const email = this.authService.getUser()
+      this.dataService.addExpense({"email": email, "amount": amount, "date": date, "description": description, "category_name": category_name}).subscribe({
       next: (response) => {console.log('expense successful', response);
 
       },
