@@ -1,18 +1,21 @@
 <nav class="navbar navbar-expand-lg navbar-light bg-gray fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" href="/">Home</a>
+    <a class="navbar-brand" href="/">Додому</a>
     <ul *ngIf="isBrowser" class="navbar-nav me-auto mb-2 mb-lg-0">
       <li *ngIf="isAuthenticated" class="nav-item">
-        <a class="nav-link" aria-current="page" href="/income/">Income</a>
+        <a class="nav-link" aria-current="page" href="/income/">Дохід</a>
       </li>
       <li *ngIf="isAuthenticated" class="nav-item">
-        <a class="nav-link" href="/expense">Expense</a>
+        <a class="nav-link" href="/expense">Витрати</a>
       </li>
           <li *ngIf="!isAuthenticated" class="nav-item ml-auto">
-            <a class="nav-link" href="/login/">Login</a>
+            <a class="nav-link" href="/login/">Вхід</a>
           </li>
           <li *ngIf="!isAuthenticated" class="nav-item">
-            <a class="nav-link" href="/signup/">Sign up</a>
+            <a class="nav-link" href="/signup/">Зарегіструватися</a>
+          </li>
+          <li *ngIf="isAuthenticated" class="nav-item">
+            <a class="nav-link" (click)="logout()" style="cursor: pointer;">Вихід</a>
           </li>
     </ul>
   </div>

@@ -9,20 +9,26 @@ import { AuthService } from "./auth.service";
   standalone: true,
   imports: [RouterOutlet, HttpClientModule, CommonModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
+  styleUrls: ['./app.component.css'], // Corrected from 'styleUrl' to 'styleUrls'
 })
-
 export class AppComponent implements OnInit {
   title = 'Transaction';
-  isAuthenticated: boolean = false
+  isAuthenticated: boolean = false;
   isBrowser: boolean;
 
-
-  constructor (@Inject(PLATFORM_ID) private platformId: Object ,private authService: AuthService) {
+  constructor(
+    @Inject(PLATFORM_ID) private platformId: Object,
+    private authService: AuthService
+  ) {
     this.isBrowser = isPlatformBrowser(this.platformId);
   }
 
   ngOnInit(): void {
-    this.isAuthenticated = this.authService.isAuthenticated()
+    this.isAuthenticated = this.authService.isAuthenticated();
+  }
+
+  logout(): void {
+    this.authService.logout();
+    this.isAuthenticated = false;
   }
 }

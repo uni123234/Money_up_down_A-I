@@ -1,26 +1,24 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, Router } from '@angular/router';
 import { DataService } from '../data.service';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../auth.service';
-import { NgForm } from '@angular/forms'
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-signup',
   standalone: true,
   imports: [RouterOutlet, FormsModule, ReactiveFormsModule, CommonModule],
   templateUrl: './signup.component.html',
-  styleUrl: './signup.component.css',
+  styleUrls: ['./signup.component.css'],
 })
-
-
 export class SignupComponent {
   signupObj: any = {}; 
   emailError: string | null = null;
   successMessage: string | null = null;
 
-  constructor(private dataService: DataService, private authService: AuthService) {}
+  constructor(private dataService: DataService, private authService: AuthService, private router: Router) {}
 
   signup(signupForm: NgForm) {
     const { username, email, password } = this.signupObj;
@@ -32,6 +30,9 @@ export class SignupComponent {
           this.authService.removeToken();
           this.emailError = null; // Clear any previous email errors
           this.successMessage = 'Реєстрація успішна! Тепер ви можете увійти в акаунт.';
+          setTimeout(() => {
+            this.router.navigate(['/login']);
+          }, 2000); // Redirect to login after 2 seconds
         },
         error: (error) => {
           if (error.status === 409 && error.error.message === 'Email already exists') {
@@ -52,16 +53,14 @@ export class SignupComponent {
   }
 }
 
-
 export class SignupTemplate {
-
   email: string;
   password: string;
   username: string;
 
   constructor() {
-    this.email = ""
-    this.password = ""
-    this.username = ""
+    this.email = "";
+    this.password = "";
+    this.username = "";
   }
 }

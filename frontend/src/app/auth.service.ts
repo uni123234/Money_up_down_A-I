@@ -21,6 +21,7 @@ export class AuthService {
     }
     return null;
   }
+
   removeToken(): void {
     localStorage.removeItem(this.TOKEN_KEY);
   }
@@ -37,12 +38,19 @@ export class AuthService {
     localStorage.setItem(this.USER_KEY, email);
   }
 
-  getUser(): any {
-    return localStorage.getItem(this.USER_KEY);
+  getUser(): string | null {
+    if (typeof localStorage !== 'undefined') {
+      return localStorage.getItem(this.USER_KEY);
+    }
+    return null;
   }
 
   removeUser(): void {
     localStorage.removeItem(this.USER_KEY);
   }
-  
+
+  logout(): void {
+    this.removeToken();
+    this.removeUser();
+  }
 }
