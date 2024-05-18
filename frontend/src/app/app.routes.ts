@@ -13,7 +13,7 @@ export const routes: Routes = [
   { path: 'income', component: IncomeComponent},
   { path: 'login', component: LoginComponent},
   { path: 'signup', component: SignupComponent},
-  { path: '', component: HomeComponent },
+  { path: '', component: HomeComponent, canActivate: [AuthGuard]},
   { path: '**', redirectTo: '' },
 ];
 
