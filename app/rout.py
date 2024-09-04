@@ -1,12 +1,18 @@
+"""
+This module provides routes for a financial management application.
+It handles user signup, login, and CRUD operations for income and expenses.
+"""
+
+from datetime import datetime, timedelta, timezone
+import logging
+
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session, joinedload
+from sqlalchemy.orm import sessionmaker, scoped_session
 from werkzeug.exceptions import NotFound
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime, timedelta, timezone
 import jwt
-import logging
 
 from models import Base, User, Expense, Income
 
@@ -23,6 +29,12 @@ Base.metadata.create_all(engine)
 
 
 def get_user_id_by_email(email):
+    """
+    Retrieve the user ID based on the provided email address.
+
+    :param email: The email address of the user.
+    :return: The user ID if found, else None.
+    """
     session = Session()
     try:
         user = session.query(User).filter_by(email=email).first()
@@ -46,6 +58,11 @@ def serve(path):
 @app.route("/signup/", methods=["POST", "GET"], defaults={"path": "signup"})
 @app.route("/<path:path>")
 def signup(path):
+    """
+    Handle user signup by creating a new user in the database.
+
+    :return: JSON response with the status of the signup process.
+    """
     if request.method == "GET":
         if path != "" and not path.startswith("api/"):
             return send_from_directory(app.static_folder, path)
@@ -88,6 +105,11 @@ def signup(path):
 @app.route("/login/", methods=["POST", "GET"], defaults={"path": "login"})
 @app.route("/<path:path>")
 def login(path):
+    """
+    Handle user login by authenticating the user and returning a JWT token.
+
+    :return: JSON response with the authentication token.
+    """
     if request.method == "GET":
         if path != "" and not path.startswith("api/"):
             return send_from_directory(app.static_folder, path)
@@ -123,6 +145,13 @@ def login(path):
 @app.route("/income/<int:id>", methods=["PUT"])
 @app.route("/<path:path>")
 def income_handler(path=None, id=None):
+    """
+    Handle the update of an income entry based on its ID.
+
+    :param path: The path parameter (optional).
+    :param income_id: The ID of the income entry.
+    :return: JSON response with the status of the update.
+    """
     if request.method == "GET":
         if path and path != "" and not path.startswith("api/"):
             session = Session()
@@ -207,11 +236,16 @@ def income_handler(path=None, id=None):
         return jsonify({"status": "success", "message": "Income updated"}), 200
 
 
-
 @app.route("/expense/", methods=["POST", "GET"], defaults={"path": "expense"})
 @app.route("/expense/<int:id>", methods=["PUT"])
 @app.route("/<path:path>")
 def expense_handler(path=None, id=None):
+    """
+    Handle the update of an expense entry based on its ID.
+    :param path: The path parameter (optional).
+    :param expense_id: The ID of the expense entry.
+    :return: JSON response with the status of the update.
+    """
     if request.method == "GET":
         if path and path != "" and not path.startswith("api/"):
             session = Session()
