@@ -5,14 +5,13 @@ import { AuthService } from '../auth.service';
 import { CommonModule, NgIf, NgIfContext } from '@angular/common';
 import { DataService } from '../data.service';
 import { stringify } from 'querystring';
-import bootstrap from '../../main.server';
 
 declare var $: any;
 
 @Component({
   selector: 'app-income',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, NgIf, CommonModule, ReactiveFormsModule],
+  imports: [FormsModule, CommonModule, ReactiveFormsModule],
   templateUrl: './income.component.html',
   styleUrl: './income.component.css',
 })
